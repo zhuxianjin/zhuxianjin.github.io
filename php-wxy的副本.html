@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="PHP伪协议"><meta name="keywords" content><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>PHP伪协议 | J0k3r</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://unpkg.com"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitment/style/default.min.css"><script src="https://cdn.jsdelivr.net/npm/gitment/dist/gitment.browser.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="author-info"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">28</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="https://bossgirl.github.io/">八千国家奖学金</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://dxxblog.top/">xx_C1</a><a class="author-info-links__name text-center" href="http://www.cooper111.xyz/">花郎世纪</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><nav id="nav" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/about/">关于</a></span></div><div id="site-info"><div id="site-title">J0k3r</div><div id="site-sub-title"></div><div id="site-social-icons"><a class="social-icon" href="https://github.com/zhuxianjin"><i class="fa-github fa"></i></a><a class="social-icon" href="mailto:xavier.chu@foxmail.com"><i class="fa-envelope fa"></i></a></div></div></nav><div id="content-outer"><div class="layout" id="content-inner"><article id="page"><h1>PHP伪协议</h1><div class="article-container"><p>&#8203;&#8203;&#8203;</p>
+<a id="more"></a>
+<ul>
+<li><p>文件包含函数：</p>
+<ul>
+<li><p>include、require、include_once、require_once、highlight_file </p>
+</li>
+<li><p>show_source 、readfile 、file_get_contents 、fopen 、file</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>题目：<a href="http://chinalover.sinaapp.com/web23/" target="_blank" rel="noopener">file_get_contents</a></p>
+<p>从题目file_get_contents就看出来了</p>
+<p>baidu了下PHP伪协议</p>
+<p>从题目代码来看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--$file = $_GET[&apos;file&apos;];</span><br><span class="line">if(@file_get_contents($file) == &quot;meizijiu&quot;)&#123;</span><br><span class="line">    echo $nctf;</span><br><span class="line">&#125;--&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="php-协议"><a href="#php-协议" class="headerlink" title="php://协议"></a>php://协议</h3><p>php:// 访问各个输入/输出流（I/O streams），如：</p>
+<ul>
+<li><p>php://filter</p>
+</li>
+<li><p>php://input</p>
+</li>
+</ul>
+<h4 id="php-filter"><a href="#php-filter" class="headerlink" title="php://filter"></a>php://filter</h4><p>php://filter用于读取源码，php://input用于执行php代码</p>
+<p>感觉file://协议应该不行，file:// 用于访问本地文件系统，不受allow_url_fopen与allow_url_include的影响</p>
+<p>即<strong><em>file:// [文件的绝对路径和文件名]</em></strong></p>
+<p>php://filter做过很多，暑假HGAME里的草莓社区-2</p>
+<p>这里把当时写的wp贴一下：</p>
+<p>通过PHP内置协议直接读取<code>../flag</code>的代码</p>
+<p>之前做过类似的题，blog上有记录，直接搬过来改一改</p>
+<p><code>php://filter/read=convert.base64-encode/resource=../flag.php</code></p>
+<p>同草莓社区-1一样加在<code>show_maopian.php?mao=</code>后面</p>
+<p>flag还是在response里，将返回的base64解码即可</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5da103ebd21.jpg" alt="15.jpg"></p>
+<h4 id="php-input协议"><a href="#php-input协议" class="headerlink" title="php://input协议"></a>php://input协议</h4><p>php://input 可以访问请求的原始数据的只读流, 将post请求中的数据作为PHP代码执行</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5da1276bef2.jpg" alt="5.jpg"></p>
+<p>这里应该可以</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5da1276a658.jpg" alt="6.jpg"></p>
+<p>php://input 可以用来生成一句话</p>
+<h3 id="data-协议"><a href="#data-协议" class="headerlink" title="data://协议"></a>data://协议</h3><p>这个没怎么见过</p>
+<p>用法大概就是<code>?file=data://text/plain,&lt;?php phpinfo()?&gt;</code></p>
+<p>或<code>?file=data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></p>
+<p>//也可以写成：</p>
+<p>这里可以用<code>?file=data://text/plain,meizijiu</code></p>
+<p><img src="https://i.loli.net/2018/07/29/5b5da143d8a05.jpg" alt="8.jpg"></p>
+<h3 id="zip-bzip2-zlib-协议"><a href="#zip-bzip2-zlib-协议" class="headerlink" title="zip://, bzip2://, zlib://协议"></a>zip://, bzip2://, zlib://协议</h3><p>这三个没见过</p>
+<p>zip://, bzip2://, zlib:// 均属于压缩流，可以访问压缩文件中的子文件，不需要指定后缀名</p>
+<p>file.jpg是个zip压缩包，里面有txt的php代码</p>
+<p>zip://</p>
+<p><code>?file=zip://D:/soft/phpStudy/WWW/file.jpg%23phpcode.txt</code>%23是#的url编码</p>
+<p>bzip2://</p>
+<p><code>?file=compress.bzip2://D:/soft/phpStudy/WWW/file.jpg</code></p>
+<p>zlib://</p>
+<p><code>?file=compress.zlib://D:/soft/phpStudy/WWW/file.jpg</code></p>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><img src="https://i.loli.net/2018/07/29/5b5da162c5aed.jpeg" alt="7.jpeg"></p>
+</div></article><nav id="pagination"><div class="pagination"></div></nav><div id="gitment-container"></div><script>var gitment = new Gitment({
+  id: md5(decodeURI(location.pathname)),
+  owner: 'zhuxianjin',
+  repo: 'zhuxianjin.github.io',
+  oauth: {
+    client_id: '10dcae32e6ed34a16cc',
+    client_secret: '7d1ef2b81d50d3f2f24e87ca3251840506c944d2'
+  }
+})
+gitment.render('gitment-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By J0k3r</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fa fa-user"></i><span id="busuanzi_value_site_uv"></span><span></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>

