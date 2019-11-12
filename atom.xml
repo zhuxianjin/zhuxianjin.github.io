@@ -226,9 +226,9 @@
     </summary>
     
     
-      <category term="Python" scheme="http://j0k3r.top/tags/Python/"/>
-    
       <category term="AWD" scheme="http://j0k3r.top/tags/AWD/"/>
+    
+      <category term="Python" scheme="http://j0k3r.top/tags/Python/"/>
     
   </entry>
   
@@ -418,11 +418,11 @@
     </summary>
     
     
+      <category term="Python" scheme="http://j0k3r.top/tags/Python/"/>
+    
       <category term="Flask" scheme="http://j0k3r.top/tags/Flask/"/>
     
       <category term="SSTI" scheme="http://j0k3r.top/tags/SSTI/"/>
-    
-      <category term="Python" scheme="http://j0k3r.top/tags/Python/"/>
     
   </entry>
   
