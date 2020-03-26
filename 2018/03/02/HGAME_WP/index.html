@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="HGAME(杭电)-2018_WriteUp"><meta name="keywords" content="WriteUp,CTF"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>HGAME(杭电)-2018_WriteUp | J0k3r's Blog</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="HGAME(杭电)-2018_WriteUp"><meta name="keywords" content="CTF,WriteUp"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>HGAME(杭电)-2018_WriteUp | J0k3r's Blog</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?9e8a6ba1f41c0d7b000fcfd73f1c7929";
@@ -21,7 +21,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
   }
 } </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-Are-you-from-Europe"><span class="toc-number">1.</span> <span class="toc-text">1. Are you from Europe?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-special-number"><span class="toc-number">2.</span> <span class="toc-text">2. special number</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-can-u-find-me"><span class="toc-number">3.</span> <span class="toc-text">3. can u find me?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-tell-me-what-you-want"><span class="toc-number">4.</span> <span class="toc-text">4. tell me what you want</span></a></li></ol><li class="toc-item toc-level-3"><a class="toc-link" href="#5-我们不一样"><span class="toc-number"></span> <span class="toc-text">5. 我们不一样</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#白菜2"><span class="toc-number">1.</span> <span class="toc-text">白菜2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最简单的sql题"><span class="toc-number"></span> <span class="toc-text">最简单的sql题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-1"><span class="toc-number"></span> <span class="toc-text">xss-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#xss-2"><span class="toc-number"></span> <span class="toc-text">xss-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#送分的SQLi"><span class="toc-number"></span> <span class="toc-text">送分的SQLi</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ngc’s-blog"><span class="toc-number"></span> <span class="toc-text">ngc’s blog</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-Caesar"><span class="toc-number"></span> <span class="toc-text">easy Caesar</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#confusion"><span class="toc-number"></span> <span class="toc-text">confusion</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#re0"><span class="toc-number"></span> <span class="toc-text">re0</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#pacp1"><span class="toc-number"></span> <span class="toc-text">pacp1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#草莓社区-1"><span class="toc-number"></span> <span class="toc-text">草莓社区-1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#草莓社区-2"><span class="toc-number"></span> <span class="toc-text">草莓社区-2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#White-cosmos"><span class="toc-number"></span> <span class="toc-text">White cosmos</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#easy-password"><span class="toc-number"></span> <span class="toc-text">easy password</span></a></li></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center">求知若饥，虚心若愚</div><div class="follow-button"><a href="https://github.com/zhuxianjin">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">40</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">38</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/wallhaven-j5k275.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/links/">友链</a><a class="site-page" href="/about/">关于我</a></span></div><div id="post-info"><div id="post-title">HGAME(杭电)-2018_WriteUp</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2018-03-02</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>点击阅读</p>
 <a id="more"></a>
-<h4 id="1-Are-you-from-Europe"><a href="#1-Are-you-from-Europe" class="headerlink" title="1. Are you from Europe?"></a>1. Are you from Europe?</h4><p><img src="https://i.loli.net/2018/07/29/5b5da53fa3c24.jpg" alt="8.jpg"></p>
+<h4 id="1-Are-you-from-Europe"><a href="#1-Are-you-from-Europe" class="headerlink" title="1. Are you from Europe?"></a>1. Are you from Europe?</h4><p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da53fa3c24.jpg" alt="8.jpg"></p>
 <p>flag肯定不是抽出来的吧</p>
 <p>果然view-source发现一行代码</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eval(function(p,a,c,k,e,d)&#123;e=function(c)&#123;return(c&lt;a?&quot;&quot;:e(parseInt(c/a)))+((c=c%a)&gt;35?String.fromCharCode(c+29):c.toString(36))&#125;;if(!&apos;&apos;.replace(/^/,String))&#123;while(c--)d[e(c)]=k[c]||e(c);k=[function(e)&#123;return d[e]&#125;];e=function()&#123;return&apos;\\w+&apos;&#125;;c=1;&#125;;while(c--)if(k[c])p=p.replace(new RegExp(&apos;\\b&apos;+e(c)+&apos;\\b&apos;,&apos;g&apos;),k[c]);return p;&#125;(&apos;w p()&#123;b a=l(&quot;8！k，j 8 o 1 m？&quot;);5(!$(&quot;#4&quot;).7()&amp;&amp;!$(&quot;#9&quot;).7())&#123;2(&quot;i。&quot;);f&#125;b 1=&quot;&quot;;1+=&quot;&quot;;1+=&quot;&quot;;1+=&quot;&quot;;1+=&quot;y&quot;;1+=&quot;&#123;&quot;;1+=&quot;g&quot;;1+=&quot;h&quot;;1+=&quot;3&quot;;1+=&quot;6&quot;;1+=&quot;v&quot;;1+=&quot;h&quot;;1+=&quot;0&quot;;1+=&quot;s&quot;;1+=&quot;e&quot;;1+=&quot;u&quot;;1+=&quot;6&quot;;1+=&quot;0&quot;;1+=&quot;n&quot;;1+=&quot;r&quot;;1+=&quot;!&quot;;1+=&quot;&#125;&quot;;5(a)&#123;$(&quot;#4&quot;).d();$(&quot;#9&quot;).d();2(&quot;t。1: &quot;+1)&#125;q&#123;2(&quot;x。&quot;)&#125;&#125;&apos;,35,35,&apos;|flag|alert||serv5|if|_|html|SSR|craft5|buy|var||remove||return|T||你根本不是欧洲人|你愿意献祭你全部的|欧洲人|confirm|吗||来获取|soHappy|else|E||兑换成功|N|C|function|你失去了唯一的机会|hgame&apos;.split(&apos;|&apos;),0,&#123;&#125;))</span><br></pre></td></tr></table></figure>
@@ -31,9 +31,9 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>我在<a href="http://www.cnblogs.com/dudumao/archive/2012/10/05/2712156.html" target="_blank" rel="noopener"><code>JS eval(function(p,a,c,k,e,r){e=function(c)*****解密 - dudumao - 博客园</code></a>找的</p>
 <p>然后运行，把eval代码放进去</p>
 <p>注意删掉eval前的空格</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da53f9ffb0.jpg" alt="9.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da53f9ffb0.jpg" alt="9.jpg"></p>
 <p>这其实就能看到flag了，如果感觉别扭可以去站长工具把混乱的代码格式化</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da53fa20c8.jpg" alt="10.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da53fa20c8.jpg" alt="10.jpg"></p>
 <p>把其中形如<code>flag += &quot;&quot;;</code>的连起来就是flag了</p>
 <h4 id="2-special-number"><a href="#2-special-number" class="headerlink" title="2. special number"></a>2. special number</h4><p>代码：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_once</span>(<span class="string">"flag.php"</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_GET[<span class="string">'key'</span>]))&#123;</span><br><span class="line">        $pattern = <span class="string">'/^(?=.*[0-9].*)(?=.*[a-zA-Z].*).&#123;7,&#125;$/ '</span>;</span><br><span class="line">        $key = $_GET[<span class="string">'key'</span>];</span><br><span class="line">        <span class="keyword">if</span>(preg_match($pattern,$key)===<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"格式错误"</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            $lock=<span class="string">"******************"</span>;</span><br><span class="line">            $b = json_decode($key);</span><br><span class="line">            <span class="keyword">if</span>($b==$lock)</span><br><span class="line">                <span class="keyword">echo</span> $flag;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">echo</span> <span class="string">"this is no special number"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
@@ -47,25 +47,25 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>还得利用<code>0==&quot;xxx&quot;</code>这种形式绕过</p>
 <p>后来不知在哪看的0e开头的字符串绕过，用<code>key={&quot;key&quot;:0e123}</code>这类的，怎么都不行</p>
 <p>直接<code>key=0e123123</code>就行。。。前面正则要求至少7个字母和数字的字符</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da58c4d951.jpg" alt="28.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da58c4d951.jpg" alt="28.jpg"></p>
 <h4 id="3-can-u-find-me"><a href="#3-can-u-find-me" class="headerlink" title="3. can u find me?"></a>3. can u find me?</h4><p>起初，页面只有一行提示：only robot know where is the flag</p>
 <p>推测可能有个robot相关的文件，御剑后台扫描</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da5d858fa9.jpg" alt="1.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da5d858fa9.jpg" alt="1.jpg"></p>
 <p>robots.txt内容如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">User-agent: *</span><br><span class="line">Disallow: /f1aaaaaaaag.php</span><br></pre></td></tr></table></figure>
 <p>进入<code>/f1aaaaaaaag.php</code>，页面显示you are not admin</p>
 <p>抓包分析</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da5d85a995.jpg" alt="2.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da5d85a995.jpg" alt="2.jpg"></p>
 <p>把<code>Cookie: user=guest</code>改为<code>Cookie: user=admin</code>就行了</p>
 <p>flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da5d822af3.jpg" alt="3.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da5d822af3.jpg" alt="3.jpg"></p>
 <h4 id="4-tell-me-what-you-want"><a href="#4-tell-me-what-you-want" class="headerlink" title="4. tell me what you want"></a>4. tell me what you want</h4><p>这个题就根据提示，一步步修改request就行了</p>
 <p>随便输入后提示POST is better，post后提示</p>
 <p><code>https://www.wikiwand.com/en/X-Forwarded-For，only localhost can get flag</code></p>
 <p>经过一连明显的串提示，最终一共要修改4处</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da5d8578ea.jpg" alt="4.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da5d8578ea.jpg" alt="4.jpg"></p>
 <p>得到flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da5d855e33.jpg" alt="5.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da5d855e33.jpg" alt="5.jpg"></p>
 <h3 id="5-我们不一样"><a href="#5-我们不一样" class="headerlink" title="5. 我们不一样"></a>5. 我们不一样</h3><p>代码如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include_once</span>(<span class="string">"flag.php"</span>);</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">isset</span>($_POST[<span class="string">'str1'</span>])&amp;&amp;<span class="keyword">isset</span>($_POST[<span class="string">'str2'</span>]))&#123;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> ($_POST[<span class="string">'str1'</span>]!=$_POST[<span class="string">'str2'</span>]&amp;&amp;strcmp($_POST[<span class="string">'str1'</span>],$_POST[<span class="string">'str2'</span>])==<span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"flag is:"</span>.$flag;</span><br><span class="line">            <span class="keyword">exit</span>();</span><br><span class="line">        &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"Something wrong.."</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>这是比较简单的了</p>
@@ -74,24 +74,24 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>strcmp是比较两个字符串，如果<code>str1&lt;str2</code> 则返回<code>&lt;0</code> 如果str1大于str2返回<code>&gt;0</code> 如果两者相等 返回0,传入 <code>password[]=xxx</code> 可以绕过 是因为函数接受到了不符合的类型，将发生错误，但是还是判断其相等</p>
 </blockquote>
 <p>所以post：<code>str1=xxx&amp;str2[]=xxx</code>,一个数组一个字符串,得到flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6133f12b.jpg" alt="6.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6133f12b.jpg" alt="6.jpg"></p>
 <h4 id="白菜2"><a href="#白菜2" class="headerlink" title="白菜2"></a>白菜2</h4><p>有个提示：初识文件结构</p>
 <p>是一个图片隐写</p>
 <p><a href="http://p1kaloi2x.bkt.clouddn.com/misc2.jpg" target="_blank" rel="noopener">图片地址</a></p>
 <p>binwalk一跑，有个flag.txt，在foremost分离就行啦</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da632615ad.jpg" alt="37.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da632615ad.jpg" alt="37.jpg"></p>
 <p>终端里看不出来flag，把得到的zip包解压就行了</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da63260426.jpg" alt="39.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da63260426.jpg" alt="39.jpg"></p>
 <p>flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6325ec40.jpg" alt="38.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6325ec40.jpg" alt="38.jpg"></p>
 <h3 id="最简单的sql题"><a href="#最简单的sql题" class="headerlink" title="最简单的sql题"></a>最简单的sql题</h3><p>描述</p>
 <p>Only admin can get flag!!!!!</p>
 <p>admin登陆,password不知道</p>
 <p>看下</p>
 <p><code>http://118.25.18.223:10015/?username=admin&amp;pwd=xxx&#39;</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da67ab5505.jpg" alt="22.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da67ab5505.jpg" alt="22.jpg"></p>
 <p>然后用最常见的<br><code>?username=admin&amp;pwd=xxx&#39; or &#39;1&#39;=&#39;1</code>即可得到flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da67ab3c89.jpg" alt="23.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da67ab3c89.jpg" alt="23.jpg"></p>
 <h3 id="xss-1"><a href="#xss-1" class="headerlink" title="xss-1"></a>xss-1</h3><p>根据代码，alert(1)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function charge(input) &#123; input = input.replace(/script/gi, &apos;_&apos;); input = input.replace(/image/gi, &apos;_&apos;); input = input.replace(/\(/, &apos;_&apos;); return &apos;&lt;article&gt;&apos; + input + &apos;&lt;/article&gt;&apos;; &#125;</span><br></pre></td></tr></table></figure>
 <p>看了下js的正则表达，它会替换script，image，还有（，</p>
@@ -101,7 +101,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>结果不行，就试了试网站上的unicode转码</p>
 <p>playload:</p>
 <p><code>&lt;img src=&quot;1&quot; onerror=&quot;alert&amp;#40;1&amp;#41;&quot;&gt;</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6bf295f9.jpg" alt="24.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6bf295f9.jpg" alt="24.jpg"></p>
 <p><code>alert(1)</code>整个转成unicode也行</p>
 <p><code>&lt;img src=&quot;1&quot; onerror=&quot;&amp;#97;&amp;#108;&amp;#101;&amp;#114;&amp;#116;&amp;#40;&amp;#49;&amp;#41;&quot;&gt;</code></p>
 <p>拿到的flag是<code>hgame</code></p>
@@ -122,23 +122,23 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>x&quot; type=&quot;&amp;#105;&amp;#109;&amp;#97;&amp;#103;&amp;#101;&quot; src=&quot;1&quot; onerror=&quot;alert&amp;#40;1&amp;#41;</code></p>
 <p>拿到的flag是<code>hgame</code></p>
 <h3 id="送分的SQLi"><a href="#送分的SQLi" class="headerlink" title="送分的SQLi"></a>送分的SQLi</h3><p>这个简单的还是可以做的</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6bee9344.jpg" alt="1.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6bee9344.jpg" alt="1.jpg"></p>
 <p>id，可以查询到chutiren和admin</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6beeb795.jpg" alt="2.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6beeb795.jpg" alt="2.jpg"></p>
 <p>order by 查询字段，表示只有两个</p>
 <p>查询数据库</p>
 <p><code>http://118.25.18.223:10068/?id=1%20union%20select%201,database()#</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6beea44d.jpg" alt="3.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6beea44d.jpg" alt="3.jpg"></p>
 <p>库名叫week3_sqliiii2</p>
 <p>查询库里的表名</p>
 <p><code>http://118.25.18.223:10068/?id=1%20union%20select%201,(select%20group_concat(table_name)%20from%20information_schema.tables%20where%20table_schema%20=%20%27week3_sqliiii2%27)%23</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6beeacee.jpg" alt="4.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6beeacee.jpg" alt="4.jpg"></p>
 <p>接下来明显要查f111aa4g这个表的列</p>
 <p><code>http://118.25.18.223:10068/?id=1%20union%20select%201,(select%20group_concat(column_name)%20from%20information_schema.columns%20where%20table_schema%20=%20%27week3_sqliiii2%27%20and%20table_name=%27f111aa4g%27)%23</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6bf283b8.jpg" alt="5.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6bf283b8.jpg" alt="5.jpg"></p>
 <p>获取flag</p>
 <p><code>http://118.25.18.223:10068/?id=1%20union%20select%201,(select%20group_concat(id,%27*%27,dajiangyoude,%27*%27,f111aaaggg_w3)%20from%20week3_sqliiii2.f111aa4g)%23</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da6bf28caa.jpg" alt="6.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5da6bf28caa.jpg" alt="6.jpg"></p>
 <h3 id="ngc’s-blog"><a href="#ngc’s-blog" class="headerlink" title="ngc’s blog"></a>ngc’s blog</h3><p>描述</p>
 <p>ngc的博客</p>
 <p>hint：ngc不想用php，于是我向他推荐了flask ——ash</p>
@@ -149,17 +149,17 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>把</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &apos;&apos;.__class__.__mro__[2].__subclasses__() &#125;&#125;</span><br></pre></td></tr></table></figure>
 <p>放到url后面</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce6a51ab2.jpg" alt="25.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce6a51ab2.jpg" alt="25.jpg"></p>
 <p>看这跟文章里一样，也有<code>&lt;type &#39;file&#39;&gt;</code>类,</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce6a28eb9.jpg" alt="26.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce6a28eb9.jpg" alt="26.jpg"></p>
 <p>我不知道索引在哪看的，把后面代码的<code>/etc/passwd</code>改成flag</p>
 <p>因为，题目里有提示，flag在flag里</p>
 <p>然后就得到flag了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &apos;&apos;.__class__.__mro__[2].__subclasses__()[40](&apos;flag&apos;).read() &#125;&#125;</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce6a27587.jpg" alt="27.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce6a27587.jpg" alt="27.jpg"></p>
 <h3 id="easy-Caesar"><a href="#easy-Caesar" class="headerlink" title="easy Caesar"></a>easy Caesar</h3><p>题目描述：相信你们都知道啥是凯撒加密的，so Ciphertext：<code>vuoas{Hvs_ei8qy_pf7kb_1l_xIadg_cjSf_o_Zo9m_rCu}</code></p>
 <p>凯撒解密</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dceda8f2c9.jpg" alt="12.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dceda8f2c9.jpg" alt="12.jpg"></p>
 <p>flag居然不对，纳闷了好久。。</p>
 <p>感觉数字有问题，发现所有列举出来的结果中，数字都没变</p>
 <p>把8改成1较合理，同样7改0，9改7，两两相差7，唯独1不知道改什么</p>
@@ -168,22 +168,22 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>hgame{The_qu1ck_br0wn_4x_jUmps_ovEr_a_La2y_dOg}</code></p>
 <h3 id="confusion"><a href="#confusion" class="headerlink" title="confusion"></a>confusion</h3><p>题目是一段–/.-./.-../-/-.-/-…./-.-/-..-/-./…-/–../-..-/–.-/.–/-…/…/-./.-/..—/..-./…/..-/..—/–./–./-…/…/.–/….-/…../-…/…/.-../.-/–../..-./..-/-…./…/…-/.—/-…/-./-../.-/–../…/.-./…./..-/-…./–.-/-…-/-…-/-…-/-…-</p>
 <p>一猜就是摩斯密码</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcef7edf5e.jpg" alt="7.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcef7edf5e.jpg" alt="7.jpg"></p>
 <p>得到的一段还以为是base64，转出来是乱码，那就是base32了</p>
 <p>直接在IDLE里转了，转完32，还得转次63</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcef7ea36d.jpg" alt="8.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcef7ea36d.jpg" alt="8.jpg"></p>
 <p>花括号这么靠后，不是flag标准形式，因该是栅栏解密</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcef7c9c61.jpg" alt="9.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcef7c9c61.jpg" alt="9.jpg"></p>
 <p>明显还得再用凯撒解密</p>
 <p>列出所有组合，得到flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcef801e31.jpg" alt="10.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcef801e31.jpg" alt="10.jpg"></p>
 <h3 id="re0"><a href="#re0" class="headerlink" title="re0"></a>re0</h3><p>下载了一个re0.exe，放到ida里</p>
 <p>f5查看伪代码</p>
 <p>就得到了flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcf1b78978.jpg" alt="11.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcf1b78978.jpg" alt="11.jpg"></p>
 <h3 id="pacp1"><a href="#pacp1" class="headerlink" title="pacp1"></a>pacp1</h3><p>下载flag.pcap，wireshark分析</p>
 <p>嗯。。在分组详情里面搜索hgame字符串就行了</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcf1be4bb4.jpg" alt="13.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcf1be4bb4.jpg" alt="13.jpg"></p>
 <h3 id="草莓社区-1"><a href="#草莓社区-1" class="headerlink" title="草莓社区-1"></a>草莓社区-1</h3><p>描述</p>
 <p>flag在<code>../flag.php</code>中</p>
 <p>知识点：LFI</p>
@@ -191,7 +191,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>试下那个flag.php，最后要这样写</p>
 <p><code>118.25.18.223:10011/show_maopian.php?mao=../flag.php</code></p>
 <p>抓包，在response里得到flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcf1b7a639.jpg" alt="14.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcf1b7a639.jpg" alt="14.jpg"></p>
 <p>还必须是<code>../flag</code>，必须两个点。。</p>
 <h3 id="草莓社区-2"><a href="#草莓社区-2" class="headerlink" title="草莓社区-2"></a>草莓社区-2</h3><p>和草莓社区-1差不多，在<code>../flag</code>里</p>
 <p>这里可通过PHP内置协议直接读取<code>../flag</code>的代码</p>
@@ -199,31 +199,31 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>php://filter/read=convert.base64-encode/resource=../flag.php</code></p>
 <p>同草莓社区-1一样加在<code>show_maopian.php?mao=</code>后面</p>
 <p>flag还是在response里，将返回的base64解码即可</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce3c410dd.jpg" alt="15.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce3c410dd.jpg" alt="15.jpg"></p>
 <h3 id="White-cosmos"><a href="#White-cosmos" class="headerlink" title="White cosmos"></a>White cosmos</h3><p>压缩包内有个pure.txt，内容好像是一些空格，反正没有文字</p>
 <p>hex fiend看一看</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce3c410c1.jpg" alt="16.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce3c410c1.jpg" alt="16.jpg"></p>
 <p>这个<code>0x09</code>就是tab键，<code>0x20</code>可能空格吧</p>
 <p>我就把09当<code>”-“</code>，20当<code>”.“</code>，空格当<code>”/“</code>分隔，转成了摩尔斯码</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce3be8beb.jpg" alt="17.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce3be8beb.jpg" alt="17.jpg"></p>
 <p>解码后是</p>
 <p><code>QHZ%ueZFQCZC%ufPC%ueZCQBZPPHQCZCY%uePLY%ueC%ueQHXF%ueBZCY%ue%ueP%ueHPBZPZC%ufK</code></p>
 <p>感觉不对，回头把09当1，20当0转成二进制</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce3c35b2e.jpg" alt="18.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce3c35b2e.jpg" alt="18.jpg"></p>
 <p>结果转不出来，于是将hgame转成二进制对比发现开头得加个0！</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dcf8769217.jpg" alt="19.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dcf8769217.jpg" alt="19.jpg"></p>
 <p>flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce3c16f4f.jpg" alt="20.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce3c16f4f.jpg" alt="20.jpg"></p>
 <h3 id="easy-password"><a href="#easy-password" class="headerlink" title="easy password"></a>easy password</h3><p>描述</p>
 <p>听说你们有人喜欢暴力解题，那么就来暴力一下，测测电脑性能吧。</p>
 <p>hint:小写字母+数字</p>
 <p>我还以为伪加密，没折腾出来</p>
 <p>老实爆破了</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dce3c4a8c9.jpg" alt="21.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/HGAME_WP.assets/5b5dce3c4a8c9.jpg" alt="21.jpg"></p>
 <p>flag</p>
 <p><code>hgame{0pos_You_5ound_m3_HAHA}</code></p>
 <hr>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/03/02/HGAME_WP/">http://j0k3r.top/2018/03/02/HGAME_WP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/04/07/php-Wrappers/"><i class="fa fa-chevron-left">  </i><span>PHP伪协议</span></a></div><div class="next-post pull-right"><a href="/2018/02/10/nmap_mind/"><span>Nmap_思维导图（转）</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/03/02/HGAME_WP/">http://j0k3r.top/2018/03/02/HGAME_WP/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/04/07/php-wxy/"><i class="fa fa-chevron-left">  </i><span>PHP伪协议</span></a></div><div class="next-post pull-right"><a href="/2018/02/10/nmap_mind/"><span>Nmap_思维导图（转）</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
 var verify = 'true' == true ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
 var guest_info = 'nick,mail,link'.split(',').filter(function(item){

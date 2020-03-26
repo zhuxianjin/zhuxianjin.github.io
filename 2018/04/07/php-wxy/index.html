@@ -53,18 +53,18 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>php://filter/read=convert.base64-encode/resource=../flag.php</code></p>
 <p>同草莓社区-1一样加在<code>show_maopian.php?mao=</code>后面</p>
 <p>flag还是在response里，将返回的base64解码即可</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da103ebd21.jpg" alt="15.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-wxy.assets/5b5da103ebd21.jpg" alt="15.jpg"></p>
 <h4 id="php-input协议"><a href="#php-input协议" class="headerlink" title="php://input协议"></a>php://input协议</h4><p>php://input 可以访问请求的原始数据的只读流, 将post请求中的数据作为PHP代码执行</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da1276bef2.jpg" alt="5.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-wxy.assets/5b5da1276bef2.jpg" alt="5.jpg"></p>
 <p>这里应该可以</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da1276a658.jpg" alt="6.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-wxy.assets/5b5da1276a658.jpg" alt="6.jpg"></p>
 <p>php://input 可以用来生成一句话</p>
 <h3 id="data-协议"><a href="#data-协议" class="headerlink" title="data://协议"></a>data://协议</h3><p>这个没怎么见过</p>
 <p>用法大概就是<code>?file=data://text/plain,&lt;?php phpinfo()?&gt;</code></p>
 <p>或<code>?file=data://text/plain;base64,PD9waHAgcGhwaW5mbygpPz4=</code></p>
 <p>//也可以写成：</p>
 <p>这里可以用<code>?file=data://text/plain,meizijiu</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da143d8a05.jpg" alt="8.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-wxy.assets/5b5da143d8a05.jpg" alt="8.jpg"></p>
 <h3 id="zip-bzip2-zlib-协议"><a href="#zip-bzip2-zlib-协议" class="headerlink" title="zip://, bzip2://, zlib://协议"></a>zip://, bzip2://, zlib://协议</h3><p>zip://, bzip2://, zlib:// 均属于压缩流，可以访问压缩文件中的子文件，不需要指定后缀名</p>
 <p>file.jpg是个zip压缩包，里面有txt的php代码</p>
 <p>zip://</p>
@@ -73,8 +73,8 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>?file=compress.bzip2://D:/soft/phpStudy/WWW/file.jpg</code></p>
 <p>zlib://</p>
 <p><code>?file=compress.zlib://D:/soft/phpStudy/WWW/file.jpg</code></p>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><img src="https://i.loli.net/2018/07/29/5b5da162c5aed.jpeg" alt="7.jpeg"></p>
-</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/04/07/php-Wrappers/">http://j0k3r.top/2018/04/07/php-Wrappers/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/PHP/">PHP</a><a class="post-meta__tags" href="/tags/伪协议/">伪协议</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/05/01/iscc-wp/"><i class="fa fa-chevron-left">  </i><span>ISCC-2018-WriteUp</span></a></div><div class="next-post pull-right"><a href="/2018/03/02/HGAME_WP/"><span>HGAME(杭电)-2018_WriteUp</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-wxy.assets/5b5da162c5aed.jpeg" alt="7.jpeg"></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/04/07/php-wxy/">http://j0k3r.top/2018/04/07/php-wxy/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/PHP/">PHP</a><a class="post-meta__tags" href="/tags/伪协议/">伪协议</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/05/01/iscc-wp/"><i class="fa fa-chevron-left">  </i><span>ISCC-2018-WriteUp</span></a></div><div class="next-post pull-right"><a href="/2018/03/02/HGAME_WP/"><span>HGAME(杭电)-2018_WriteUp</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
 var verify = 'true' == true ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
 var guest_info = 'nick,mail,link'.split(',').filter(function(item){

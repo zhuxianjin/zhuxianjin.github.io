@@ -55,8 +55,6 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <li>(需要allow_url_fopen=On并且 allow_url_include=On)   </li>
 </ul>
 </li>
-</ul>
-<ul>
 <li><p>PHP中常见的文件包含函数</p>
 <ul>
 <li>include()：当使用该函数包含文件时，<strong><em>只有代码执行到include()函数是才将文件包含进来</em></strong>，发生错误时只给出一个警告，继续向下执行<ul>
@@ -93,13 +91,13 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <li><p>php://filter是PHP语言中特有的协议流，作用是作为一个“中间流”来处理其他流。</p>
 </li>
 </ul>
-<h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><p><img src="https://i.loli.net/2018/07/29/5b5dd090be2d7.jpg" alt="6.jpg"></p>
+<h3 id="题目分析"><a href="#题目分析" class="headerlink" title="题目分析"></a>题目分析</h3><p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/file-upload.assets/5b5dd090be2d7.jpg" alt="6.jpg"></p>
 <p>click之后是一个test，url变为</p>
 <p><code>http://4.chinalover.sinaapp.com/web7/index.php?file=show.php</code></p>
 <p>这里可以通过PHP内置协议直接读取index的代码</p>
 <p><code>?file=php://filter/read=convert.base64-encode/resource=index.php</code></p>
 <p>页面是index.php的base64加密后的代码,解密即可</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dd090d2bd3.jpg" alt="5.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/file-upload.assets/5b5dd090d2bd3.jpg" alt="5.jpg"></p>
 <h3 id="0x02-文件上传"><a href="#0x02-文件上传" class="headerlink" title="0x02 文件上传"></a>0x02 文件上传</h3><blockquote>
 <p>文件上传漏洞就是利用可以上传的地方将恶意代码植入到服务器中，再通过url去访问以执行代码</p>
 </blockquote>
@@ -147,12 +145,12 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 </li>
 </ol>
 <p>fck编辑器解析漏洞<br>/1.asp/下创建文件夹2.asp （2.asp会被转成2_asp）</p>
-<h3 id="一个南邮的CTF题—上传绕过"><a href="#一个南邮的CTF题—上传绕过" class="headerlink" title="一个南邮的CTF题—上传绕过"></a>一个南邮的CTF题—上传绕过</h3><p><img src="https://i.loli.net/2018/07/29/5b5dd0b1183db.jpg" alt="8.jpg"></p>
+<h3 id="一个南邮的CTF题—上传绕过"><a href="#一个南邮的CTF题—上传绕过" class="headerlink" title="一个南邮的CTF题—上传绕过"></a>一个南邮的CTF题—上传绕过</h3><p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/file-upload.assets/5b5dd0b1183db.jpg" alt="8.jpg"></p>
 <p>上传图片并抓包，尝试各种拓展名修改，00截断等，无果，试了下uploads，修改下dir  ，随便改为/uploads/002.php</p>
 <p>reponse中filename为除拓展名的部分，basename即为最终文件名，最终为022.php011.png，和filename部分拼到一起了</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dd0b1654e9.jpg" alt="10.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/file-upload.assets/5b5dd0b1654e9.jpg" alt="10.jpg"></p>
 <p>测试了下在filename前加一个00截断，然而行不通，那就可以在022.php后加一个00截断</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5dd0b153f28.jpg" alt="9.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/file-upload.assets/5b5dd0b153f28.jpg" alt="9.jpg"></p>
 <p>防范：</p>
 <ul>
 <li>文件扩展名服务端白名单校验。</li>

